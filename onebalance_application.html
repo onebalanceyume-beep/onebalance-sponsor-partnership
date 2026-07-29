@@ -106,9 +106,9 @@
       <div class="info"><div class="name">Silver <span class="price">¥19,800</span></div>
       <div class="desc">スポンサーボード／YouTube宣伝（年間）／お礼状／認定シール</div></div>
     </div>
-    <div class="plan-option" data-plan="Gold" data-price="¥39,600">
-      <input type="radio" name="plan" value="Gold (¥39,600)">
-      <div class="info"><div class="name">Gold <span class="price">¥39,600</span></div>
+    <div class="plan-option" data-plan="Gold" data-price="¥39,800">
+      <input type="radio" name="plan" value="Gold (¥39,800)">
+      <div class="info"><div class="name">Gold <span class="price">¥39,800</span></div>
       <div class="desc">スポンサーボード4倍／YouTube／Tシャツ掲示／お礼状／認定シール</div></div>
     </div>
     <div class="plan-option" data-plan="Platinum" data-price="¥88,000">
@@ -176,7 +176,7 @@
       </div>
     </div>
     <button class="submit-btn" id="submitBtn" disabled>この内容でお申し込みする</button>
-    <div class="submit-note">送信すると、内容をまとめたメールが下書きとして開きます。そのまま送信していただくとお申し込みが完了します。</div>
+    <div class="submit-note">送信すると、内容をまとめたメールの下書きが開きます。そのまま送信後、このページに表示されるボタンからカードでお支払いください。</div>
   </section>
 
   <footer>ONE BALANCE BOXING GYM ー HAPPY KIDS PROJECT</footer>
@@ -184,7 +184,9 @@
 
 <div id="thanks">
   <div class="big">お申し込みありがとうございます</div>
-  <p>開いたメールをそのまま送信していただければ、お申し込み完了です。<br>担当よりあらためてご連絡いたします。</p>
+  <p>開いたメールをそのまま送信していただければ、お申し込みが完了します。</p>
+  <div id="paymentArea" style="margin-top:24px;"></div>
+  <p style="font-size:11.5px;color:#999;margin-top:26px;">担当よりあらためてご連絡いたします。</p>
 </div>
 
 <script>
@@ -213,7 +215,15 @@
     submitBtn.disabled = !(planSelected && allChecked && fieldsFilled);
   }
 
+  const STRIPE_LINKS = {
+    'Bronze': null,
+    'Silver': 'https://buy.stripe.com/8x228sbe91go5vCd5zffy0f',
+    'Gold': 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p',
+    'Platinum': 'https://buy.stripe.com/28E8wQbe98IQgag8Pjffy0o'
+  };
+
   submitBtn.addEventListener('click', () => {
+    const planKey = document.querySelector('.plan-option.selected').dataset.plan;
     const plan = document.querySelector('input[name="plan"]:checked').value;
     const company = document.getElementById('companyName').value;
     const person = document.getElementById('personName').value;
@@ -235,6 +245,22 @@
     );
 
     window.location.href = 'mailto:feel.good.yoshi3@gmail.com?subject=' + subject + '&body=' + body;
+
+    const paymentArea = document.getElementById('paymentArea');
+    const link = STRIPE_LINKS[planKey];
+    if (link) {
+      paymentArea.innerHTML =
+        '<a href="' + link + '" target="_blank" rel="noopener" ' +
+        'style="display:block;background:var(--red);color:#fff;font-weight:700;font-size:16px;' +
+        'text-decoration:none;border-radius:14px;padding:18px;text-align:center;">' +
+        '▶ カードでお支払いへ進む</a>' +
+        '<div style="font-size:11.5px;color:var(--gray);text-align:center;margin-top:10px;">' +
+        '安全なStripeの決済ページに移動します</div>';
+    } else {
+      paymentArea.innerHTML =
+        '<div style="font-size:13px;color:var(--gray);text-align:center;line-height:1.7;">' +
+        'Bronzeプランのお支払いリンクは近日公開予定です。<br>担当より別途ご案内いたします。</div>';
+    }
 
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('thanks').style.display = 'block';
