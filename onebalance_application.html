@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>HAPPY KIDS PROJECT パートナー お申し込み</title>
+<style>
+  :root{
+    --red:#DB444C;
+    --red-dark:#B8323A;
+    --blue:#5BB9CD;
+    --navy:#191E2E;
+    --paper:#FFFBFA;
+    --line:#F1D9DA;
+    --gray:#6B6B70;
+  }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; }
+  body{
+    font-family:"Helvetica Neue",Helvetica,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
+    background:var(--paper); color:var(--navy); line-height:1.8;
+  }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:480px; margin:0 auto; background:#fff; box-shadow:0 0 40px rgba(0,0,0,0.06); }
+  @media (min-width:900px){ .wrap{ max-width:640px; } }
+
+  .hero{
+    background:linear-gradient(160deg,var(--red) 0%, var(--red-dark) 100%);
+    color:#fff; padding:36px 24px 30px; text-align:center; border-bottom:8px solid #fff;
+  }
+  .hero h1{ font-size:22px; margin:0 0 6px; font-weight:700; }
+  .hero p{ font-size:13.5px; margin:0; opacity:.95; }
+
+  section{ padding:28px 22px; border-bottom:1px solid var(--line); }
+  .step-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:50%; background:var(--red); color:#fff;
+    font-size:13px; font-weight:700; margin-right:8px;
+  }
+  h2.step-title{ font-size:16px; color:var(--navy); margin:0 0 14px; display:flex; align-items:center; }
+  .speak{
+    background:#FFF8F2; border:1.5px dashed var(--line); border-radius:12px; padding:16px; font-size:14px; color:#333; margin-bottom:16px;
+  }
+  .speak .tag{ font-size:11px; color:var(--red); font-weight:700; letter-spacing:.05em; display:block; margin-bottom:6px; }
+
+  .plan-option{
+    border:2px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; cursor:pointer;
+  }
+  .plan-option.selected{ border-color:var(--red); background:#FFF3F3; }
+  .plan-option input{ width:20px; height:20px; accent-color:var(--red); flex-shrink:0; }
+  .plan-option .info{ flex:1; }
+  .plan-option .info .name{ font-weight:700; font-size:15px; }
+  .plan-option .info .price{ font-weight:700; color:var(--red); font-size:14px; }
+  .plan-option .info .desc{ font-size:12px; color:var(--gray); margin-top:2px; }
+
+  .check-row{
+    display:flex; align-items:flex-start; gap:10px; background:#FAFAFA; border-radius:12px; padding:14px; margin-top:6px;
+  }
+  .check-row input{ width:22px; height:22px; margin-top:2px; accent-color:var(--red); flex-shrink:0; }
+  .check-row label{ font-size:13.5px; color:#333; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12.5px; color:var(--gray); margin-bottom:4px; font-weight:700; }
+  .field input{
+    width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:10px; font-size:15px; font-family:inherit;
+  }
+  .field input:focus{ outline:none; border-color:var(--red); }
+
+  .final-consent{
+    background:var(--navy); color:#fff; border-radius:14px; padding:18px; margin-top:10px;
+  }
+  .final-consent label{ font-size:13.5px; }
+
+  .submit-btn{
+    width:100%; background:var(--red); color:#fff; font-weight:700; font-size:16px; border:none;
+    border-radius:14px; padding:18px; margin-top:10px; cursor:pointer;
+  }
+  .submit-btn:disabled{ background:#ccc; }
+  .submit-note{ font-size:11.5px; color:var(--gray); text-align:center; margin-top:10px; }
+
+  #thanks{ display:none; text-align:center; padding:60px 24px; }
+  #thanks .big{ font-size:20px; font-weight:700; color:var(--red); margin-bottom:10px; }
+  #thanks p{ font-size:14px; color:#333; }
+
+  footer{ text-align:center; padding:20px; font-size:11px; color:#aaa; }
+</style>
+</head>
+<body>
+<div class="wrap" id="formWrap">
+
+  <div class="hero">
+    <h1>HAPPY KIDS PROJECT<br>パートナー お申し込み</h1>
+    <p>ここから一緒に、内容をひとつずつ確認していきましょう。</p>
+  </div>
+
+  <!-- STEP1 プラン選択 -->
+  <section>
+    <h2 class="step-title"><span class="step-num">1</span>プランを選ぶ</h2>
+    <div class="plan-option" data-plan="Bronze" data-price="¥5,000">
+      <input type="radio" name="plan" value="Bronze (¥5,000)">
+      <div class="info"><div class="name">Bronze <span class="price">¥5,000</span></div>
+      <div class="desc">スポンサーボード掲示／認定シール贈呈</div></div>
+    </div>
+    <div class="plan-option" data-plan="Silver" data-price="¥19,800">
+      <input type="radio" name="plan" value="Silver (¥19,800)">
+      <div class="info"><div class="name">Silver <span class="price">¥19,800</span></div>
+      <div class="desc">スポンサーボード／YouTube宣伝（年間）／お礼状／認定シール</div></div>
+    </div>
+    <div class="plan-option" data-plan="Gold" data-price="¥39,600">
+      <input type="radio" name="plan" value="Gold (¥39,600)">
+      <div class="info"><div class="name">Gold <span class="price">¥39,600</span></div>
+      <div class="desc">スポンサーボード4倍／YouTube／Tシャツ掲示／お礼状／認定シール</div></div>
+    </div>
+    <div class="plan-option" data-plan="Platinum" data-price="¥88,000">
+      <input type="radio" name="plan" value="Platinum (¥88,000)">
+      <div class="info"><div class="name">Platinum <span class="price">¥88,000</span></div>
+      <div class="desc">スポンサーボード6倍／YouTube／Tシャツ2倍サイズ／お礼状／認定シール</div></div>
+    </div>
+  </section>
+
+  <!-- STEP2 契約期間・お支払い -->
+  <section>
+    <h2 class="step-title"><span class="step-num">2</span>契約期間・お支払いについて</h2>
+    <div class="speak">
+      <span class="tag">一緒に読み上げる内容</span>
+      このパートナーシップは、1年間の契約となります。お支払いはクレジットカードで、期間が終わる前に特にご連絡がなければ、同じ内容でもう1年、自動的に更新される仕組みです。もしその年で終わりにしたい場合は、更新日より前に、LINE公式アカウントからメッセージでお知らせください。それだけで更新を止めることができます。なお、年の途中で「やめたい」となった場合でも、その年の分の協賛金の返金は行っておらず、契約はその年の終わりまで有効という形になります。また、契約終了後も、すでに公開されているYouTube動画にはそのまま社名等が残り続ける場合があります。スポンサーボードの掲示物についても、諸事情によりすぐには取り外せない場合がありますので、あらかじめご了承ください。
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="check1">
+      <label for="check1">契約期間・お支払い・更新の停止方法について、確認しました</label>
+    </div>
+  </section>
+
+  <!-- STEP3 会計処理 -->
+  <section>
+    <h2 class="step-title"><span class="step-num">3</span>会計処理について</h2>
+    <div class="speak">
+      <span class="tag">一緒に読み上げる内容</span>
+      お支払いいただく協賛金は、御社にて広告宣伝費として計上いただけます。
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="check2">
+      <label for="check2">会計処理について、確認しました</label>
+    </div>
+  </section>
+
+  <!-- STEP4 ロゴ掲載 -->
+  <section>
+    <h2 class="step-title"><span class="step-num">4</span>ロゴ・お名前の掲載について</h2>
+    <div class="speak">
+      <span class="tag">一緒に読み上げる内容</span>
+      お申し込みいただいたプランに応じて、スポンサーボードやYouTube動画、ポロシャツなどに、御社のロゴやお名前を掲載させていただきます。掲載する期間は、契約期間と同じ1年間です。
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="check3">
+      <label for="check3">ロゴ・お名前の掲載について、確認しました</label>
+    </div>
+  </section>
+
+  <!-- STEP5 お申し込み情報 -->
+  <section>
+    <h2 class="step-title"><span class="step-num">5</span>お申し込み情報</h2>
+    <div class="field"><label>会社名</label><input type="text" id="companyName" placeholder="〇〇株式会社"></div>
+    <div class="field"><label>ご担当者名</label><input type="text" id="personName" placeholder="山田 太郎"></div>
+    <div class="field"><label>ご住所</label><input type="text" id="address" placeholder="鳥取県米子市…"></div>
+    <div class="field"><label>メールアドレス</label><input type="email" id="email" placeholder="example@mail.com"></div>
+    <div class="field"><label>電話番号</label><input type="tel" id="tel" placeholder="0859-00-0000"></div>
+  </section>
+
+  <!-- 最終同意 -->
+  <section style="border-bottom:none;">
+    <div class="final-consent">
+      <div class="check-row" style="background:rgba(255,255,255,0.08);">
+        <input type="checkbox" id="checkFinal">
+        <label for="checkFinal" style="color:#fff;">上記すべての内容を確認し、HAPPY KIDS PROJECTのパートナーとして参加することに同意します</label>
+      </div>
+    </div>
+    <button class="submit-btn" id="submitBtn" disabled>この内容でお申し込みする</button>
+    <div class="submit-note">送信すると、内容をまとめたメールが下書きとして開きます。そのまま送信していただくとお申し込みが完了します。</div>
+  </section>
+
+  <footer>ONE BALANCE BOXING GYM ー HAPPY KIDS PROJECT</footer>
+</div>
+
+<div id="thanks">
+  <div class="big">お申し込みありがとうございます</div>
+  <p>開いたメールをそのまま送信していただければ、お申し込み完了です。<br>担当よりあらためてご連絡いたします。</p>
+</div>
+
+<script>
+  const planOptions = document.querySelectorAll('.plan-option');
+  planOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      planOptions.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      opt.querySelector('input').checked = true;
+      validate();
+    });
+  });
+
+  const checks = ['check1','check2','check3','checkFinal'].map(id => document.getElementById(id));
+  checks.forEach(c => c.addEventListener('change', validate));
+  ['companyName','personName','address','email','tel'].forEach(id => {
+    document.getElementById(id).addEventListener('input', validate);
+  });
+
+  const submitBtn = document.getElementById('submitBtn');
+
+  function validate(){
+    const planSelected = document.querySelector('input[name="plan"]:checked');
+    const allChecked = checks.every(c => c.checked);
+    const fieldsFilled = ['companyName','personName','email'].every(id => document.getElementById(id).value.trim() !== '');
+    submitBtn.disabled = !(planSelected && allChecked && fieldsFilled);
+  }
+
+  submitBtn.addEventListener('click', () => {
+    const plan = document.querySelector('input[name="plan"]:checked').value;
+    const company = document.getElementById('companyName').value;
+    const person = document.getElementById('personName').value;
+    const address = document.getElementById('address').value;
+    const email = document.getElementById('email').value;
+    const tel = document.getElementById('tel').value;
+
+    const subject = encodeURIComponent('HAPPY KIDS PROJECT パートナー申込み【' + company + '】');
+    const body = encodeURIComponent(
+      'HAPPY KIDS PROJECT パートナーシップ お申し込み\n\n' +
+      '■選択プラン：' + plan + '\n\n' +
+      '■会社名：' + company + '\n' +
+      '■ご担当者名：' + person + '\n' +
+      '■ご住所：' + address + '\n' +
+      '■メールアドレス：' + email + '\n' +
+      '■電話番号：' + tel + '\n\n' +
+      '契約期間・お支払い／会計処理／ロゴ掲載について、\n' +
+      '説明を受けたうえで内容を確認し、同意しました。'
+    );
+
+    window.location.href = 'mailto:feel.good.yoshi3@gmail.com?subject=' + subject + '&body=' + body;
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
