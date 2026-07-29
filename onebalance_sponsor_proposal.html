@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>ワンバランスボクシング大会 協賛パートナーシップのご案内</title>
+<style>
+  :root{
+    --red:#DB444C;
+    --red-dark:#B8323A;
+    --blue:#5BB9CD;
+    --navy:#191E2E;
+    --paper:#FFFBFA;
+    --line:#F1D9DA;
+    --gray:#6B6B70;
+  }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; }
+  body{
+    font-family:"Helvetica Neue",Helvetica,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
+    background:var(--paper);
+    color:var(--navy);
+    line-height:1.7;
+    text-wrap:pretty;
+  }
+  p{ text-wrap:pretty; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:480px; margin:0 auto; background:#fff; box-shadow:0 0 40px rgba(0,0,0,0.06); }
+  @media (min-width:900px){
+    .wrap{ max-width:1080px; }
+    .grid-pc{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+    .cards-pc{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+    .shirts-pc{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    background:linear-gradient(160deg,var(--red) 0%, var(--red-dark) 100%);
+    color:#fff;
+    padding:44px 24px 40px;
+    text-align:center;
+    border-bottom:8px solid #fff;
+  }
+  .hero .badge{
+    display:inline-block;
+    border:2px solid #fff;
+    border-radius:999px;
+    padding:6px 18px;
+    font-size:13px;
+    letter-spacing:.08em;
+    margin-bottom:18px;
+    opacity:.95;
+  }
+  .hero h1{
+    font-size:30px;
+    font-weight:700;
+    margin:0 0 6px;
+    letter-spacing:.02em;
+  }
+  .hero .formula{
+    font-size:22px;
+    font-weight:700;
+    margin:14px 0;
+    letter-spacing:.03em;
+  }
+  .hero .formula span{ font-size:15px; font-weight:400; display:block; opacity:.9; margin-top:2px;}
+  .hero p{ font-size:15px; margin:16px 0 0; opacity:.95; }
+  .hero .date-row{
+    margin-top:24px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+  }
+  .hero .date-pill{
+    background:#fff; color:var(--red); font-weight:700; font-size:14px;
+    border-radius:10px; padding:10px 16px;
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section{ padding:40px 22px; }
+  .sec-title{
+    font-size:22px; font-weight:700; color:var(--red); text-align:center; margin:0 0 6px;
+  }
+  .sec-sub{ text-align:center; color:var(--gray); font-size:13px; margin:0 0 26px; }
+  .divider{ height:1px; background:var(--line); margin:0 22px; }
+
+  /* ===== 趣旨 ===== */
+  .flow-card{
+    background:#fff; border:2px solid var(--line); border-radius:16px; padding:20px; margin-bottom:16px;
+  }
+  .flow-card h3{ color:var(--red); font-size:16px; margin:0 0 8px; }
+  .flow-card p{ font-size:14px; margin:0; color:#333; }
+  .flow-arrow{ text-align:center; color:var(--red); font-size:20px; margin:4px 0; }
+  .donation-box{
+    background:var(--red); color:#fff; border-radius:16px; padding:22px; text-align:center; margin-top:8px;
+  }
+  .donation-box .big{ font-size:20px; font-weight:700; margin-bottom:4px; }
+  .donation-box .small{ font-size:12px; opacity:.9; }
+
+  /* ===== 代表者プロフィール ===== */
+  .profile-card{
+    background:#fff; border:2px solid var(--line); border-radius:20px; padding-bottom:22px; overflow:hidden;
+  }
+  .profile-photo-wrap{ text-align:center; padding:26px 24px 0; }
+  .profile-photo-wrap img{
+    width:170px; height:170px; object-fit:cover; object-position:top center;
+    border-radius:18px; border:3px solid var(--red); margin:0 auto;
+  }
+  .profile-name{ text-align:center; font-size:19px; font-weight:700; color:var(--navy); margin:14px 0 2px; }
+  .profile-name span{ display:block; font-size:12px; color:var(--gray); font-weight:400; margin-top:4px; }
+  .profile-bio{ padding:18px 22px 0; }
+  .profile-bio p{ font-size:13.5px; color:#333; margin:0 0 12px; }
+  .profile-cta{
+    margin:18px 22px 0; background:var(--red); color:#fff; border-radius:12px; padding:16px;
+    font-size:13.5px; text-align:center; font-weight:700; line-height:1.6;
+  }
+
+  /* ===== 取り組みの内容 ===== */
+  .program-card{
+    background:#fff; border:2px solid var(--line); border-radius:16px; padding:20px; margin-bottom:16px;
+  }
+  .program-card h3{ color:var(--red); font-size:15px; margin:0 0 8px; }
+  .program-card p{ font-size:13.5px; margin:0; color:#333; }
+
+  /* ===== 実績 ===== */
+  .result-card{
+    background:#fff; border-radius:16px; border:2px solid var(--line); overflow:hidden; margin-bottom:18px;
+  }
+  .photo-slot{
+    aspect-ratio:4/3; background:repeating-linear-gradient(45deg,#fafafa,#fafafa 10px,#f2f2f2 10px,#f2f2f2 20px);
+    display:flex; align-items:center; justify-content:center; color:#aaa; font-size:13px; text-align:center; padding:12px;
+    border-bottom:2px dashed var(--line);
+  }
+  .result-card .txt{ padding:16px 18px; }
+  .result-card h3{ font-size:15px; color:var(--navy); margin:0 0 6px; }
+  .result-card p{ font-size:13px; color:var(--gray); margin:0; }
+
+  /* ===== YouTube 実績 ===== */
+  .yt-panel{
+    background:var(--navy); border-radius:20px; padding:26px 18px; color:#fff;
+  }
+  .yt-panel .yt-head{ text-align:center; font-size:14px; color:var(--blue); font-weight:700; margin-bottom:18px; letter-spacing:.05em; }
+  .yt-stats{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .yt-stat{ background:rgba(255,255,255,0.06); border-radius:14px; padding:16px 10px; text-align:center; }
+  .yt-stat .num{ font-size:26px; font-weight:700; color:#fff; }
+  .yt-stat .num .yen{ font-size:14px; font-weight:400; }
+  .yt-stat .label{ font-size:11px; color:#B7BDCE; margin-top:4px; }
+  .yt-footnote{ font-size:11px; color:#8890A6; text-align:center; margin-top:16px; }
+
+  /* ===== 料金プラン ===== */
+  .plan-card{
+    border-radius:18px; border:2px solid var(--line); margin-bottom:18px; overflow:hidden; position:relative;
+  }
+  .plan-card.gold{ border-color:#C9971D; }
+  .plan-card.platinum{ border-color:#B9BAC1; }
+  .plan-head{
+    padding:16px 20px; display:flex; justify-content:space-between; align-items:center; color:#fff;
+  }
+  .plan-card.bronze .plan-head{ background:#9C7A56; }
+  .plan-card.silver .plan-head{ background:#8A8F98; }
+  .plan-card.gold .plan-head{ background:linear-gradient(120deg,#F0C556,#B8860B); color:var(--navy); }
+  .plan-card.platinum .plan-head{ background:linear-gradient(120deg,#E8E9ED,#B9BAC1); color:var(--navy); }
+  .plan-head .name{ font-size:18px; font-weight:700; }
+  .plan-price{ text-align:right; }
+  .plan-price .yen{ font-size:13px; vertical-align:top; }
+  .plan-price .amount{ font-size:26px; font-weight:700; }
+  .plan-body{ padding:16px 20px 20px; background:#fff; }
+  .plan-body ul{ margin:0; padding:0; list-style:none; }
+  .plan-body li{
+    font-size:13.5px; padding:8px 0 8px 24px; position:relative; border-bottom:1px solid #f2f2f2; color:#333;
+  }
+  .plan-body li:last-child{ border-bottom:none; }
+  .plan-body li::before{
+    content:"✓"; position:absolute; left:0; top:8px; color:var(--red); font-weight:700;
+  }
+
+  /* ===== Tシャツ掲示イメージ ===== */
+  .shirt-block{ margin-bottom:22px; }
+  .shirt-block .cap{ text-align:center; font-size:13px; color:var(--gray); margin-top:8px; }
+  .shirt-frame{
+    border:2px solid var(--line); border-radius:16px; padding:10px; background:#fafafa;
+  }
+  .note-box{
+    background:#FFF3F3; border-left:4px solid var(--red); border-radius:8px; padding:12px 14px; font-size:12.5px; color:#7A2B30; margin-top:14px;
+  }
+
+  /* ===== 開催概要テーブル ===== */
+  .info-table{ width:100%; border-collapse:collapse; font-size:14px; }
+  .info-table tr{ border-bottom:1px solid var(--line); }
+  .info-table td{ padding:14px 6px; }
+  .info-table td:first-child{ color:var(--red); font-weight:700; width:38%; white-space:nowrap; }
+
+  /* ===== CTA ===== */
+  .cta{
+    background:linear-gradient(160deg,var(--red),var(--red-dark)); color:#fff; text-align:center; padding:44px 24px;
+  }
+  .cta h2{ font-size:22px; margin:0 0 10px; }
+  .cta p{ font-size:14px; opacity:.95; margin:0 0 22px; }
+  .cta .contact{
+    background:#fff; color:var(--navy); border-radius:14px; padding:18px; display:inline-block; text-align:left; width:100%;
+  }
+  .cta .contact div{ font-size:14px; margin:4px 0; }
+  .cta .contact .label{ color:var(--red); font-weight:700; display:inline-block; width:84px; }
+
+  footer{ text-align:center; padding:22px; font-size:11px; color:#aaa; background:#fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">企業パートナーシップ ご提案資料</span>
+    <h1>ワンバランスボクシング大会</h1>
+    <div class="formula">企業PR ×  地域貢献 × CSR × SDGs
+      <span>児童養護施設 応援パートナーシップ募集</span>
+    </div>
+    <p>大人になってからボクシングを始めた選手たちの、年に一度の発表会。<br>今年は児童養護施設の子どもたちと力を合わせて開催します。</p>
+    <div class="date-row">
+      <div class="date-pill">大会開催日　10月24日</div>
+      <div class="date-pill">お申し込み締切　9月18日</div>
+    </div>
+  </div>
+
+  <!-- 趣旨 -->
+  <section>
+    <div class="sec-title">この取り組みについて</div>
+    <div class="sec-sub">FLOW ー 大会の趣旨と収益の流れ</div>
+
+    <div class="flow-card">
+      <h3>① ワンバランスボクシング大会</h3>
+      <p>大人になってからボクシングを始めた会員による、年1回の発表会。今年で開催を重ね、地域から応援いただける大会に育っています。</p>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-card">
+      <h3>② 児童養護施設の子どもたちと職場体験コラボ</h3>
+      <div class="photo-slot" style="aspect-ratio:16/9; padding:0; border-radius:12px; margin-bottom:12px; border-bottom:none;"><img src="kids_photo.jpg" alt="子どもたちのイメージ写真" style="width:100%;height:100%;object-fit:cover;border-radius:12px;"></div>
+      <p>施設の子どもたちに大会運営のお手伝いをしてもらい、社会と接点を持つ「職場体験」の場を提供します。当日は施設職員さんも同行し、安全面をサポートします。</p>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="donation-box">
+      <img src="happy_kids_logo.png" alt="HAPPY KIDS PROJECT ロゴ" style="width:56px;height:56px;object-fit:contain;background:#fff;border-radius:12px;padding:6px;margin:0 auto 10px;" onerror="this.style.display='none';">
+      <div class="big">大会運営費を除く収益は、すべて</div>
+      <div class="big">「HAPPY KIDS PROJECT」へ寄付</div>
+      <div class="small">児童養護施設の子どもたちの自立支援プロジェクトに活用されます</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 代表者プロフィール -->
+  <section>
+    <div class="sec-title">代表者からのメッセージ</div>
+    <div class="sec-sub">ワンバランスボクシングジム 代表 / HAPPY KIDS PROJECT 発起人</div>
+
+    <div class="profile-card">
+      <div class="profile-photo-wrap">
+        <img src="nagao_profile.jpg" alt="長尾儀弘 プロフィール写真">
+      </div>
+      <div class="profile-name">長尾 儀弘
+        <span>1986年生まれ　鳥取県米子市出身</span>
+      </div>
+      <div class="profile-bio">
+        <p>ボクシング選手として競技生活を送り、数々の全国大会で優勝を経験。約12年前から児童養護施設でのボランティア活動に携わる中で、多くの子どもたちが、施設を退所した後の生活や社会との関わりに課題を抱えている現実を知りました。</p>
+        <p>ボクシングは、努力した人が正当に評価されるフェアな競技です。しかし社会では、生まれ育った環境によって、経験できることや与えられる選択肢、スタートラインが大きく異なります。</p>
+        <p>だからこそ、子どもたちには社会に出る前から、仕事や人との関わり、お金の扱い方などを実際に体験し、自分の力で人生を選び取るための土台を身に付けてほしいと考えています。</p>
+        <p>HAPPY KIDS PROJECTでは、社会で生きていくために必要な体験の機会をつくるとともに、これまで培ってきたコーチングスキルを生かし、子どもたちが自分自身の強みや可能性に気付き、将来の選択肢を広げられるよう支援しています。</p>
+        <p>一方的に知識や答えを与えるのではなく、さまざまな経験を通して「自分にもできるかもしれない」と思える力を育むこと。それが、私たちが最も大切にしていることです。</p>
+      </div>
+      <div class="profile-cta">
+        この想いに共感してくださる企業様と、パートナーとして子どもたちの未来を一緒に引き上げていくことができれば嬉しいです。
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 取り組みの内容 -->
+  <section>
+    <div class="sec-title">施設と歩む、年間を通じた取り組み</div>
+    <div class="sec-sub">単発のイベントではなく、継続的な関わりを大切にしています</div>
+
+    <div class="program-card">
+      <h3>① 職員さん向け研修（年間契約・年5回程度）</h3>
+      <p>児童養護施設の職員さんと年間契約を結び、定期的に研修を実施しています。毎回、職員さんから感想やお礼のお手紙をいただきながら、少しずつ関係を深めてきました。</p>
+    </div>
+    <div class="program-card">
+      <h3>② 職員さんの変化が、子どもたちの変化に</h3>
+      <p>研修を通じて職員さんのモチベーションが上がると、それは自然と子どもたちにも伝わります。子どもたちが「言われたから動く」のではなく「自分で考えて動く」ように変わっていく。そんな循環を目指しています。</p>
+    </div>
+    <div class="program-card">
+      <h3>③ 弟の「ツナグ」との連携</h3>
+      <p>弟が運営する「ツナグ」は、全国の児童養護施設に求人情報を届ける取り組みです。求人情報そのものの発信は弟が独自に行っており、私たちが直接携わっているわけではありません。私たちが連携しているのは、職員さん向けの研修や子どもたちの体験学習を通じて「主体性を育てる」という部分です。同じ方向を目指す者同士として、お互いの取り組みを高め合っています。こうして主体性を育んだ子どもたちが、将来的に企業様にとっても魅力的な人材として、選択肢を広げていけたらと考えています。</p>
+    </div>
+    <div class="program-card">
+      <h3>④ 子どもたちと飲食ビジネスをゼロから作る</h3>
+      <p>現在、子どもたちと一緒に、飲食ビジネスをゼロから作る取り組みにも挑戦しています。まずは自分たちで作ってみる、人にあげてみる、そして売ってみる。そうした小さな一歩を重ねながら、将来的にはそこへの就職も見据えて、事業を育てていく過程を子どもたちと一緒に歩んでいます。</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 昨年実績 -->
+  <section>
+    <div class="sec-title">昨年の実績</div>
+    <div class="sec-sub">今回で2回目となる取り組みです（実績あり）</div>
+
+    <div class="grid-pc">
+      <div class="result-card">
+        <div class="photo-slot" style="padding:0;"><img src="IMG_9368.JPG" alt="児童養護施設 職員向け研修の様子" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="txt">
+          <h3>児童養護施設 職員さん向け研修を実施</h3>
+          <p>昨年、施設職員さん向けの研修プログラムを実施。多数の職員さんにご参加いただきました。</p>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="photo-slot">写真挿入予定<br>（韓国研修のしおり・KOREA TRAVEL GUIDE）</div>
+        <div class="txt">
+          <h3>日韓こども未来交流プロジェクト</h3>
+          <p>パートナー企業と連携し、施設の子どもたちを韓国研修に招待。旅のしおりにワンバランスのロゴを掲載した実績があります。</p>
+        </div>
+      </div>
+    </div>
+    <div class="note-box">※ 韓国研修の写真2枚（旅のしおり・KOREA TRAVEL GUIDE表紙）は差し替え用のプレースホルダーです。データをいただき次第、反映します。</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- YouTube実績 -->
+  <section>
+    <div class="sec-title">YouTubeでの露出実績</div>
+    <div class="sec-sub">ワンバランスボクシングジム公式チャンネル（過去365日間）</div>
+    <div class="yt-panel">
+      <div class="yt-head">2025/7/20 〜 2026/7/19 の実績</div>
+      <div class="yt-stats">
+        <div class="yt-stat"><div class="num">9,319,648</div><div class="label">インプレッション数</div></div>
+        <div class="yt-stat"><div class="num">1,502,752</div><div class="label">総再生回数</div></div>
+        <div class="yt-stat"><div class="num">1.09万人</div><div class="label">チャンネル登録者数</div></div>
+        <div class="yt-stat"><div class="num">432本</div><div class="label">投稿動画数</div></div>
+      </div>
+      <div class="yt-footnote">エンドロールへの協賛企業名掲載により、視聴者に自然な形で露出します</div>
+    </div>
+    <div style="text-align:center; margin-top:16px;">
+      <a href="#" id="sampleVideoLink" style="display:inline-block; border:2px solid var(--red); color:var(--red); font-weight:700; font-size:14px; border-radius:12px; padding:12px 28px; text-decoration:none;">実際の動画を見る（サンプル）</a>
+    </div>
+    <div class="note-box">※ 上のボタンのリンク先は、実際にスポンサー名が映る動画のURLに差し替えてください（href="#" の部分を貼り替えるだけでOKです）。</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 料金プラン -->
+  <section>
+    <div class="sec-title">協賛プラン</div>
+    <div class="sec-sub">PARTNERSHIP PLAN ー 4つのランクからお選びいただけます</div>
+    <div class="note-box" style="margin-bottom:20px;">※ 一般的なネット広告と比べても割安な設定です。加えて、地域貢献・CSRのストーリーに乗れる点、Tシャツという物理的なブランディングが続く点は、通常の広告費では得られない価値です。</div>
+
+    <div class="cards-pc">
+      <div class="plan-card bronze">
+        <div class="plan-head">
+          <div class="name">Bronze</div>
+          <div class="plan-price"><span class="yen">¥</span><span class="amount">5,000</span></div>
+        </div>
+        <div class="plan-body">
+          <ul>
+            <li>スポンサーボードに掲示</li>
+            <li>ハッピーキッズパートナー認定シール贈呈</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-card silver">
+        <div class="plan-head">
+          <div class="name">Silver</div>
+          <div class="plan-price"><span class="yen">¥</span><span class="amount">19,800</span></div>
+        </div>
+        <div class="plan-body">
+          <ul>
+            <li>スポンサーボードに掲示</li>
+            <li>YouTubeでの宣伝（年間）</li>
+            <li>施設職員さんからのお礼のお手紙</li>
+            <li>ハッピーキッズパートナー認定シール贈呈</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-card gold">
+        <div class="plan-head">
+          <div class="name">Gold</div>
+          <div class="plan-price"><span class="yen">¥</span><span class="amount">39,600</span></div>
+        </div>
+        <div class="plan-body">
+          <ul>
+            <li>スポンサーボードに掲示（通常の4倍サイズ）</li>
+            <li>YouTubeでの宣伝（年間）</li>
+            <li>Tシャツ掲示（年間）</li>
+            <li>施設職員さんからのお礼のお手紙</li>
+            <li>ハッピーキッズパートナー認定シール贈呈</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-card platinum">
+        <div class="plan-head">
+          <div class="name">Platinum</div>
+          <div class="plan-price"><span class="yen">¥</span><span class="amount">88,000</span></div>
+        </div>
+        <div class="plan-body">
+          <ul>
+            <li>スポンサーボードに掲示（通常の6倍サイズ）</li>
+            <li>YouTubeでの宣伝（年間）</li>
+            <li>Tシャツ掲示（年間・通常の2倍サイズ）</li>
+            <li>施設職員さんからのお礼のお手紙</li>
+            <li>ハッピーキッズパートナー認定シール贈呈</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Tシャツ掲示イメージ -->
+  <section>
+    <div class="sec-title">Tシャツ掲示イメージ</div>
+    <div class="sec-sub">Gold・Platinumプランでは、YouTube撮影時にも着用するポロシャツにロゴを掲載します</div>
+
+    <div class="donation-box" style="margin-bottom:20px;">
+      <div class="big">1年間、映像に映り続ける</div>
+      <div class="big">"着る広告"</div>
+      <div class="small">通常のネット広告では買えない、継続的な物理ブランディングです</div>
+    </div>
+
+    <div class="shirts-pc">
+      <div class="shirt-block">
+        <div class="shirt-frame">
+          <div class="photo-slot" style="aspect-ratio:1841/2600;">背面ロゴ配置イメージ<br>（提供画像を挿入）</div>
+        </div>
+        <div class="cap">背面：ロゴ配置位置イメージ</div>
+      </div>
+      <div class="shirt-block">
+        <div class="shirt-frame">
+          <div class="photo-slot" style="aspect-ratio:1841/2600;">前面ロゴ配置イメージ<br>（提供画像を挿入）</div>
+        </div>
+        <div class="cap">前面：ロゴ配置位置イメージ</div>
+      </div>
+    </div>
+    <div class="note-box">※ ご提供いただいたポロシャツ画像（2枚）をこの枠に差し込んでください。</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 開催概要 -->
+  <section>
+    <div class="sec-title">開催概要・お申し込み条件</div>
+    <table class="info-table">
+      <tr><td>大会開催日</td><td>10月24日</td></tr>
+      <tr><td>お申し込み締切</td><td>9月18日</td></tr>
+      <tr><td>お支払い方法</td><td>クレジットカード</td></tr>
+      <tr><td>会計区分</td><td>広告宣伝費として計上いただけます</td></tr>
+      <tr><td>契約期間</td><td>1年間（自動更新）</td></tr>
+      <tr><td>更新の停止</td><td>更新前にLINE公式アカウントへご連絡いただければ停止できます</td></tr>
+    </table>
+    <div class="note-box">※ 更新を停止された場合も、その契約期間の満了までは有効です。また、満了後も既に公開済みのYouTube動画はそのまま残る場合があり、スポンサーボードの掲示物もすぐには取り外せない場合があります。あらかじめご了承ください。</div>
+    <div class="note-box">※ お申し込みは、スマホでそのままチェックを入れながら進められる専用ページをご用意しています。下の「お申し込みはこちら」からどうぞ。</div>
+    <div style="text-align:center; margin-top:18px;">
+      <a href="onebalance_application.html" style="display:inline-block; background:var(--red); color:#fff; font-weight:700; font-size:15px; border-radius:12px; padding:14px 32px; text-decoration:none;">お申し込みはこちら</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>ぜひパートナーとして<br>ご一緒させてください</h2>
+    <p>企業PR・地域貢献・CSR・SDGsを一度に実現できる取り組みです。<br>この場でご質問を承ります。ご検討後、スマホからお申し込みいただけます。<br>パートナーになっていただいた際は、SNSでシェアできるお知らせカードもご用意しています。</p>
+    <div class="contact">
+      <div><span class="label">運営</span>ワンバランスボクシングジム</div>
+      <div><span class="label">担当</span>長尾 儀弘</div>
+      <div><span class="label">TEL</span>0859-49-5275</div>
+      <div><span class="label">WEB</span>one-balance.jp</div>
+    </div>
+  </div>
+
+  <footer>
+    <img src="happy_kids_logo.png" alt="HAPPY KIDS PROJECT ロゴ" style="width:26px;height:26px;object-fit:contain;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none';">
+    ONE BALANCE BOXING GYM ー HAPPY KIDS PROJECT パートナーシップ企画書
+  </footer>
+</div>
+</body>
+</html>
