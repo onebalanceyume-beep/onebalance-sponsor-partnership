@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>スポンサープランを選ぶ｜HAPPY KIDS PROJECT × ONE BALANCE</title>
+<style>
+  :root{
+    --red:#DB444C;
+    --red-dark:#B8323A;
+    --blue:#5BB9CD;
+    --blue-light:#8ED3E3;
+    --navy:#191E2E;
+    --gray:#6B6B70;
+  }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; }
+  body{
+    font-family:"Helvetica Neue",Helvetica,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
+    background:#FAFAFA; color:var(--navy); line-height:1.7;
+  }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:520px; margin:0 auto; background:#fff; min-height:100vh; }
+  @media (min-width:900px){ .wrap{ max-width:560px; box-shadow:0 0 40px rgba(0,0,0,0.06); min-height:auto; margin-top:32px; margin-bottom:32px; border-radius:20px; overflow:hidden; } }
+
+  .hero{ position:relative; }
+  .hero img{ width:100%; height:220px; object-fit:cover; object-position:center 30%; }
+  .hero .badge{
+    position:absolute; top:16px; left:16px;
+    background:rgba(219,68,76,0.92); color:#fff; font-size:11.5px; font-weight:700;
+    padding:6px 12px; border-radius:999px; letter-spacing:.03em;
+  }
+  .hero .cap{
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(0deg, rgba(25,30,46,0.75), rgba(25,30,46,0));
+    color:#fff; padding:28px 20px 14px;
+  }
+  .hero .cap h1{ font-size:19px; margin:0; font-weight:700; }
+
+  section{ padding:22px 20px 8px; }
+  .intro{ font-size:13.5px; color:#444; margin-bottom:20px; text-wrap:pretty; }
+
+  .plans{ display:flex; flex-direction:column; gap:16px; padding:0 20px 12px; }
+
+  .plan-card{
+    border-radius:18px; overflow:hidden; border:1px solid #eee;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
+  }
+  .plan-head{
+    color:#fff; padding:18px 20px 16px; text-align:center; position:relative;
+  }
+  .plan-head .num{ font-size:13px; font-weight:700; opacity:.9; letter-spacing:.05em; margin-bottom:4px; }
+  .plan-head .label{ font-size:17px; font-weight:700; margin-bottom:6px; }
+  .plan-head .price{ font-size:32px; font-weight:800; }
+  .plan-head .price span{ font-size:14px; font-weight:600; margin-left:2px; }
+  .plan-head .yen{ font-size:19px; font-weight:700; margin-right:2px; }
+
+  .p1 .plan-head{ background:linear-gradient(135deg, var(--blue-light), var(--blue)); }
+  .p2 .plan-head{ background:linear-gradient(135deg, var(--blue), #3E8EA0); }
+  .p3 .plan-head{ background:linear-gradient(135deg, var(--red), var(--red-dark)); }
+  .p4 .plan-head{ background:linear-gradient(135deg, var(--red-dark), #7E2229); }
+  .p5 .plan-head{ background:linear-gradient(135deg, #E3B23C, #9C7A1F); }
+  .p5 .plan-body{ background:#FFFCF2; }
+  .p5.plan-card{ border-color:#E3B23C; box-shadow:0 4px 16px rgba(227,178,60,0.25); }
+
+  .plan-head .recommend{
+    position:absolute; top:-1px; right:14px;
+    background:#FFC53D; color:#3A2A00; font-size:10.5px; font-weight:700;
+    padding:4px 10px; border-radius:0 0 8px 8px;
+  }
+
+  .plan-body{ background:#fff; padding:18px 20px 20px; }
+  .plan-body ul{ list-style:none; margin:0 0 16px; padding:0; }
+  .plan-body li{
+    display:flex; align-items:flex-start; gap:8px; font-size:14px; color:#333;
+    padding:6px 0;
+  }
+  .plan-body li .ck{
+    flex:none; width:19px; height:19px; border-radius:5px; background:#FFA733;
+    color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .plan-body p.desc{ font-size:13px; color:#555; margin:0 0 16px; }
+
+  .buy-btn{
+    display:block; text-align:center; text-decoration:none;
+    font-weight:700; font-size:15px; border-radius:999px; padding:14px 0; width:100%;
+  }
+  .p1 .buy-btn{ background:var(--blue-light); color:#fff; }
+  .p2 .buy-btn{ background:var(--blue); color:#fff; }
+  .p3 .buy-btn{ background:var(--red); color:#fff; }
+  .p4 .buy-btn{ background:var(--red-dark); color:#fff; }
+  .p5 .buy-btn{ background:linear-gradient(135deg, #E3B23C, #9C7A1F); color:#fff; }
+  .buy-btn:active{ opacity:.85; }
+
+  .note-box{
+    margin:6px 20px 24px; background:#FAFAFA; border-radius:12px; padding:14px 16px;
+    font-size:11.5px; color:var(--gray);
+  }
+
+  footer{ text-align:center; padding:20px; font-size:11px; color:#aaa; }
+  .backlink{ text-align:center; padding:0 20px 8px; }
+  .backlink a{ font-size:13px; color:var(--gray); text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <img src="kids_hero.jpg" alt="児童養護施設の子どもたち">
+    <div class="badge">HAPPY KIDS PROJECT</div>
+    <div class="cap">
+      <h1>子どもたちの未来に、<br>あなたの一歩を。</h1>
+    </div>
+  </div>
+
+  <section>
+    <div class="intro">
+      ワンバランスボクシングジムが取り組む児童養護施設 自立支援プロジェクト。5つのプランからお選びいただけます。
+    </div>
+  </section>
+
+  <div class="plans">
+
+    <!-- ① 5,500円 -->
+    <div class="plan-card p1">
+      <div class="plan-head">
+        <div class="num">① スポンサー</div>
+        <div class="price"><span class="yen">¥</span>5,500<span>/年</span></div>
+      </div>
+      <div class="plan-body">
+        <ul>
+          <li><span class="ck">✓</span>スポンサーボードに掲示（通常サイズ）</li>
+          <li><span class="ck">✓</span>1年間、ジムに掲示</li>
+        </ul>
+        <a class="buy-btn" href="https://buy.stripe.com/4gM5kEaa5bV23nu0iNffy0u" target="_blank" rel="noopener">このプランで申し込む</a>
+      </div>
+    </div>
+
+    <!-- ② 11,000円 -->
+    <div class="plan-card p2">
+      <div class="plan-head">
+        <div class="num">② スポンサー</div>
+        <div class="price"><span class="yen">¥</span>11,000<span>/年</span></div>
+      </div>
+      <div class="plan-body">
+        <ul>
+          <li><span class="ck">✓</span>スポンサーボードに掲示（4倍サイズ）</li>
+          <li><span class="ck">✓</span>1年間、ジムに掲示</li>
+        </ul>
+        <a class="buy-btn" href="https://buy.stripe.com/eVqdRafup7EM2jq0iNffy0v" target="_blank" rel="noopener">このプランで申し込む</a>
+      </div>
+    </div>
+
+    <!-- ③ 19,800円 -->
+    <div class="plan-card p3">
+      <div class="plan-head">
+        <div class="recommend">人気</div>
+        <div class="num">③ スポンサー</div>
+        <div class="price"><span class="yen">¥</span>19,800<span>/年</span></div>
+      </div>
+      <div class="plan-body">
+        <ul>
+          <li><span class="ck">✓</span>スポンサーボードに掲示（4倍サイズ）</li>
+          <li><span class="ck">✓</span>YouTubeでの宣伝（年間）</li>
+          <li><span class="ck">✓</span>施設職員さんからのお礼状</li>
+          <li><span class="ck">✓</span>ハッピーキッズパートナー認定シール贈呈</li>
+        </ul>
+        <a class="buy-btn" href="https://buy.stripe.com/8x228sbe91go5vCd5zffy0f" target="_blank" rel="noopener">このプランで申し込む</a>
+      </div>
+    </div>
+
+    <!-- ④ 39,600円 -->
+    <div class="plan-card p4">
+      <div class="plan-head">
+        <div class="num">④ スポンサー</div>
+        <div class="price"><span class="yen">¥</span>39,600<span>/年</span></div>
+      </div>
+      <div class="plan-body">
+        <ul>
+          <li><span class="ck">✓</span>スポンサーボードに掲示（4倍サイズ）</li>
+          <li><span class="ck">✓</span>YouTubeでの宣伝（4倍サイズ・年間）</li>
+          <li><span class="ck">✓</span>施設職員さんからのお礼状</li>
+          <li><span class="ck">✓</span>ハッピーキッズパートナー認定シール贈呈</li>
+        </ul>
+        <a class="buy-btn" href="https://buy.stripe.com/cNicN6dmh4sA4rye9Dffy0g" target="_blank" rel="noopener">このプランで申し込む</a>
+      </div>
+    </div>
+
+    <!-- ⑤ 88,000円 -->
+    <div class="plan-card p5">
+      <div class="plan-head">
+        <div class="num">⑤ ゴールドスポンサー</div>
+        <div class="price"><span class="yen">¥</span>88,000<span>/年</span></div>
+      </div>
+      <div class="plan-body">
+        <ul>
+          <li><span class="ck">✓</span>スポンサーボードに掲示（4倍サイズ）</li>
+          <li><span class="ck">✓</span>YouTubeでの宣伝（4倍サイズ・年間）</li>
+          <li><span class="ck">✓</span>Tシャツに企業名掲載（年間）</li>
+          <li><span class="ck">✓</span>施設職員さんからのお礼状</li>
+          <li><span class="ck">✓</span>ハッピーキッズパートナー認定シール贈呈</li>
+        </ul>
+        <a class="buy-btn" href="https://buy.stripe.com/28E8wQbe98IQgag8Pjffy0o" target="_blank" rel="noopener">このプランで申し込む</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note-box">
+    ※ お申し込みボタンから決済ページ（Stripe）に移動します。③〜⑤のプランは決済完了後、公式LINEにて活動報告等をお届けします。
+  </div>
+
+  <div class="backlink">
+    <a href="onebalance_sponsor_proposal.html">← ホームページに戻る</a>
+  </div>
+
+  <footer>ONE BALANCE BOXING GYM ー HAPPY KIDS PROJECT</footer>
+</div>
+</body>
+</html>
