@@ -1,0 +1,197 @@
+<!--
+============================================================
+ハンバーガーメニュー 挿入用スニペット
+============================================================
+【挿入手順】
+1. onebalance_sponsor_proposal.html を開く
+2. <body> タグのすぐ下に、下の <!-- MENU BUTTON --> 〜 <!-- /MENU BUTTON --> と
+   <!-- MENU DRAWER --> 〜 <!-- /MENU DRAWER --> の中身を丸ごと貼り付け
+3. </head> の直前に、下の <style> ブロックの中身を丸ごと貼り付け
+   （すでに <style> タグがあれば、その中に追記でOK）
+4. </body> の直前に、下の <script> ブロックを丸ごと貼り付け
+5. 電話番号（0859-49-5275 の部分）は音声入力で桁数が不明瞭だったので、
+   正しい番号に直してください
+============================================================
+-->
+
+<style>
+  /* ---- ハンバーガーメニュー ---- */
+  .menu-btn{
+    position:fixed; top:16px; right:16px; z-index:200;
+    width:44px; height:44px; border-radius:50%; border:none;
+    background:rgba(255,255,255,0.95); box-shadow:0 2px 10px rgba(0,0,0,0.15);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    cursor:pointer;
+  }
+  .menu-btn span{ width:20px; height:2px; background:#DB444C; border-radius:2px; }
+
+  .menu-drawer{
+    position:fixed; top:0; right:0; height:100%; width:86%; max-width:400px;
+    background:#fff; z-index:300; transform:translateX(100%);
+    transition:transform .25s ease; overflow-y:auto;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.15);
+  }
+  .menu-drawer.open{ transform:translateX(0); }
+  .menu-overlay{
+    position:fixed; inset:0; background:rgba(25,30,46,0.45); z-index:299;
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .menu-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .menu-header{
+    background:#DB444C; color:#fff; padding:22px 20px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .menu-header h2{ margin:0; font-size:16px; font-weight:800; }
+  .menu-close{ background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
+
+  .menu-body{ padding:8px 0 40px; }
+  .menu-section{ border-bottom:1px solid #eee; }
+  .menu-section-head{
+    width:100%; text-align:left; background:none; border:none; padding:18px 20px;
+    font-size:14.5px; font-weight:800; color:#191E2E; display:flex; justify-content:space-between; align-items:center;
+    cursor:pointer;
+  }
+  .menu-section-head .arrow{ transition:transform .2s ease; color:#DB444C; }
+  .menu-section.open .menu-section-head .arrow{ transform:rotate(90deg); }
+  .menu-section-body{
+    max-height:0; overflow:hidden; transition:max-height .3s ease; background:#FAFAFA;
+  }
+  .menu-section.open .menu-section-body{ max-height:3000px; }
+  .menu-section-inner{ padding:4px 20px 20px; font-size:13.5px; color:#333; line-height:1.8; }
+  .menu-section-inner h4{ font-size:13px; color:#DB444C; margin:16px 0 6px; }
+  .menu-section-inner h4:first-child{ margin-top:0; }
+  .menu-section-inner p{ margin:0 0 10px; white-space:pre-line; }
+  .menu-section-inner a.site-link{
+    display:inline-block; margin-top:6px; font-size:12.5px; color:#fff; background:#DB444C;
+    padding:8px 16px; border-radius:999px; text-decoration:none; font-weight:700;
+  }
+  .menu-profile-photo{ width:120px; height:120px; border-radius:50%; object-fit:cover; margin:0 auto 12px; display:block; border:3px solid #DB444C; }
+  .menu-company-info{ padding:20px; font-size:12px; color:#6B6B70; }
+</style>
+
+<!-- MENU BUTTON -->
+<button class="menu-btn" id="menuOpenBtn" aria-label="メニュー">
+  <span></span><span></span><span></span>
+</button>
+<!-- /MENU BUTTON -->
+
+<!-- MENU DRAWER -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="menu-drawer" id="menuDrawer">
+  <div class="menu-header">
+    <h2>ONE BALANCE について</h2>
+    <button class="menu-close" id="menuCloseBtn">×</button>
+  </div>
+
+  <div class="menu-body">
+
+    <div class="menu-section" data-section="gym">
+      <button class="menu-section-head">ワンバランスボクシングジムの紹介 <span class="arrow">›</span></button>
+      <div class="menu-section-body">
+        <div class="menu-section-inner">
+          <h4>基本理念</h4>
+          <p>「心と体を元気に。カッコよく、素敵にする。」
+ボクシングを単なるスポーツとして提供するのではなく、一人ひとりの人生に寄り添い、心と体を元気にする、自分に自信を持つ、健康で快適な体をつくる、新しいことに挑戦する、人と人がつながる、人生をより前向きにする——そんなきっかけを提供する場所を目指しています。</p>
+
+          <h4>ワンバランスボクシングジムとは</h4>
+          <p>選手育成を目的としないフィットネス型のボクシングジムです。「ボクシングをやってみたかった」そんな大人の方が、気軽にボクシングを始められる場所をつくっています。2015年5月19日にオープン。会員の中心は社会人・大人の方で、ほとんどの方が初心者です。</p>
+
+          <h4>女性にも選ばれるボクシングジム</h4>
+          <p>会員に占める女性の割合は約3割。「怖い」「激しい」というイメージではなく、健康・美容・運動・ストレス発散・自己成長のためのフィットネスとして楽しんでもらえる場所を目指しています。</p>
+
+          <h4>ワンバランスのボクシング</h4>
+          <p>運動不足の解消、ダイエット、ストレス発散、自信をつけたい——一人ひとりの目的に合わせて、ボクシングを楽しみながら続けられる環境を提供しています。</p>
+
+          <h4>YouTube</h4>
+          <p>「大人になって始めるボクシング」をテーマに情報発信。チャンネル登録者は約1万1,000人。ボクシングを知らない人にも「やってみたい」と思ってもらえるきっかけをつくっています。</p>
+
+          <h4>ワンバランス スパーリング大会</h4>
+          <p>大人になってからボクシングを始めた方が挑戦できる場所。勝ち負けだけでなく、挑戦した経験そのものを大切にしています。</p>
+
+          <a class="site-link" href="https://www.one-balance.jp" target="_blank" rel="noopener">ホームページを見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" data-section="onetre">
+      <button class="menu-section-head">パーソナルトレーニング ONE-TRE の紹介 <span class="arrow">›</span></button>
+      <div class="menu-section-body">
+        <div class="menu-section-inner">
+          <h4>コンセプト</h4>
+          <p>「どこも痛くない体」「快適に動ける体」をつくること。ガチガチに筋肉をつけることや大会出場を第一の目的にはしていません。人生を快適に過ごすための、身体の土台づくりを大切にしています。</p>
+
+          <h4>身体の土台をつくる</h4>
+          <p>特に大切にしているのが、体幹×柔軟性×筋力×連動性のバランスです。膝や腰、首の痛み、姿勢、身体の硬さといったお悩みに対して、身体全体のバランスを見ながらトレーニングを行います。目指すのは、痛かった場所が痛くなくなる、姿勢が良くなる、身体が動きやすくなる、日常生活が快適になる、という変化です。身体のベースができたところで、ボクシングをする身体へとつなげていきます。</p>
+
+          <a class="site-link" href="https://one-tre.com" target="_blank" rel="noopener">ホームページを見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" data-section="happykids">
+      <button class="menu-section-head">HAPPY KIDS PROJECT の紹介 <span class="arrow">›</span></button>
+      <div class="menu-section-body">
+        <div class="menu-section-inner">
+          <h4>目的</h4>
+          <p>児童養護施設の子どもたちの自立支援を行う取り組みです。「施設を退所した後、社会の中で一人でも生きていける力を、施設にいるうちから育てること」を目的としています。さまざまな体験、新しいチャレンジ、人と関わる経験、仕事につながる経験、誰かの役に立つ経験を提供していきます。現在はその一つとして、子どもたちとドーナツ作りにも取り組んでいます。</p>
+
+          <h4>子どもたちへの体験学習</h4>
+          <p>ワンバランス スパーリング大会では、児童養護施設の子どもたちにも大会運営を手伝ってもらいます。人と関わる、協力する、仕事をする、責任を持つ、誰かの役に立つ——社会に出る前の体験学習の機会をつくります。</p>
+
+          <h4>児童養護施設職員への支援</h4>
+          <p>子どもたちだけでなく、施設で働く職員さんへの支援にも取り組んでいます。代表・長尾儀弘が持つコーチングスキルを活用し、職員さん自身の成長やコミュニケーション、子どもたちとの関わりにつながる研修を行っています。</p>
+
+          <h4>プロジェクトへの想い</h4>
+          <p>代表の長尾儀弘自身も、兄弟とともに児童養護施設にお世話になった経験があります。その経験への恩返しという意味も含め、子どもたちが自分自身の力で未来を切り開いていけるよう、さまざまな体験とチャレンジの機会をつくっています。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" data-section="profile">
+      <button class="menu-section-head">代表プロフィール <span class="arrow">›</span></button>
+      <div class="menu-section-body">
+        <div class="menu-section-inner">
+          <img class="menu-profile-photo" src="nagao_profile.jpg" alt="長尾儀弘">
+          <h4>長尾 儀弘</h4>
+          <p>1986年生まれ　鳥取県出身
+2015年5月19日、ワンバランスボクシングジムをオープン。ボクシングを軸に、フィットネス、パーソナルトレーニング、コーチング、YouTube、社会貢献活動などを展開。現在は「大人になって始めるボクシング」をテーマにしたYouTubeでも情報を発信しています。</p>
+
+          <h4>ワンバランスが目指すもの</h4>
+          <p>ボクシングを通じて、一人ひとりの人生に寄り添う。身体が変わる。心が変わる。自信がつく。人とつながる。新しいことに挑戦する。その先に「人生が少し良くなった」と思ってもらえる場所をつくる。それがワンバランスの目指している場所です。
+
+「人の人生に寄り添い、心と体を元気にする場所。」</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="menu-company-info">
+    ONE BALANCE BOXING GYM<br>
+    〒683-0000　鳥取県米子市車尾6丁目8-59<br>
+    TEL：0859-49-5275　<span style="color:#DB444C;">（※桁数を要確認）</span>
+  </div>
+</div>
+<!-- /MENU DRAWER -->
+
+<script>
+  (function(){
+    const openBtn = document.getElementById('menuOpenBtn');
+    const closeBtn = document.getElementById('menuCloseBtn');
+    const drawer = document.getElementById('menuDrawer');
+    const overlay = document.getElementById('menuOverlay');
+
+    function openMenu(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+    function closeMenu(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+
+    openBtn.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.menu-section-head').forEach(head => {
+      head.addEventListener('click', () => {
+        head.parentElement.classList.toggle('open');
+      });
+    });
+  })();
+</script>
