@@ -58,6 +58,23 @@
   .plan-card li::before{ content:"✓"; font-weight:700; flex:none; }
   .plan-card .logo-hint{ margin-top:10px; font-size:11.5px; color:var(--gray); background:#F5F5F5; border-radius:8px; padding:8px 10px; }
 
+  .position-note{ font-size:12.5px; color:var(--gray); margin-bottom:12px; }
+  .shirt-map{ position:relative; width:100%; border-radius:14px; overflow:hidden; border:1px solid #eee; touch-action:manipulation; }
+  .shirt-img{ width:100%; display:block; pointer-events:none; -webkit-user-select:none; user-select:none; }
+  .pos-dot{
+    position:absolute; width:26px; height:26px; margin-left:-13px; margin-top:-13px;
+    border-radius:50%; border:2px solid var(--red); background:rgba(255,255,255,0.92);
+    color:var(--red); font-size:12px; font-weight:800; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; padding:0;
+    transition:background .15s, color .15s, transform .1s;
+  }
+  .pos-dot:active{ transform:scale(0.92); }
+  .pos-dot.selected{ background:var(--red); color:#fff; box-shadow:0 0 0 4px rgba(219,68,76,0.25); }
+  .pos-dot.taken{ border-color:#bbb; background:#eee; color:#999; cursor:not-allowed; }
+  .pos-dot.taken:active{ transform:none; }
+  .position-selected{ margin-top:10px; font-size:13px; font-weight:700; color:var(--navy); text-align:center; }
+  .position-selected.ok{ color:#1E7A4C; }
+
   .plan-card.pr1 .card-head{ background:linear-gradient(135deg, var(--blue), #3E8EA0); }
   .plan-card.pr1 li::before{ color:var(--blue); }
   .plan-card.pr1.selected{ border-color:var(--blue); box-shadow:0 4px 16px rgba(91,185,205,0.25); }
@@ -174,7 +191,33 @@
   </section>
 
   <section>
-    <div class="step-title"><span class="step-num">2</span>お申し込み情報</div>
+    <div class="step-title"><span class="step-num">2</span>Tシャツの掲示位置を選ぶ</div>
+    <div class="position-note">先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。</div>
+    <div class="shirt-map" id="shirtMap">
+      <img src="shirt_position_map.jpg" alt="Tシャツ掲示位置マップ" class="shirt-img">
+      <button type="button" class="pos-dot" data-pos="A" style="left:23.2%; top:37.7%;">A</button>
+      <button type="button" class="pos-dot" data-pos="B" style="left:34.0%; top:37.9%;">B</button>
+      <button type="button" class="pos-dot" data-pos="C" style="left:28.5%; top:48.2%;">C</button>
+      <button type="button" class="pos-dot" data-pos="D" style="left:28.5%; top:59.7%;">D</button>
+      <button type="button" class="pos-dot" data-pos="E" style="left:24.3%; top:69.0%;">E</button>
+      <button type="button" class="pos-dot" data-pos="F" style="left:32.6%; top:69.0%;">F</button>
+      <button type="button" class="pos-dot" data-pos="G" style="left:11.0%; top:40.0%;">G</button>
+      <button type="button" class="pos-dot" data-pos="H" style="left:43.0%; top:40.0%;">H</button>
+      <button type="button" class="pos-dot" data-pos="I" style="left:72.1%; top:34.0%;">I</button>
+      <button type="button" class="pos-dot" data-pos="J" style="left:67.8%; top:45.8%;">J</button>
+      <button type="button" class="pos-dot" data-pos="K" style="left:76.4%; top:45.8%;">K</button>
+      <button type="button" class="pos-dot" data-pos="L" style="left:67.8%; top:57.5%;">L</button>
+      <button type="button" class="pos-dot" data-pos="M" style="left:76.4%; top:57.5%;">M</button>
+      <button type="button" class="pos-dot" data-pos="N" style="left:67.8%; top:66.9%;">N</button>
+      <button type="button" class="pos-dot" data-pos="O" style="left:76.4%; top:66.9%;">O</button>
+      <button type="button" class="pos-dot" data-pos="P" style="left:67.8%; top:73.7%;">P</button>
+      <button type="button" class="pos-dot" data-pos="Q" style="left:76.4%; top:73.7%;">Q</button>
+    </div>
+    <div class="position-selected" id="positionSelected">位置は未選択です</div>
+  </section>
+
+  <section>
+    <div class="step-title"><span class="step-num">3</span>お申し込み情報</div>
     <form id="applyForm">
       <div class="field">
         <label for="companyName">会社名</label>
@@ -197,7 +240,7 @@
         <input type="email" id="email" required>
       </div>
 
-      <div class="step-title"><span class="step-num">3</span>ロゴ画像をアップロード（任意）</div>
+      <div class="step-title"><span class="step-num">4</span>ロゴ画像をアップロード（任意）</div>
       <div class="upload-box">
         <div style="font-size:13px;color:#444;">選んだプランに合わせた比率でご用意ください</div>
         <input type="file" id="logoFile" accept="image/png,image/jpeg">
@@ -243,6 +286,54 @@
     });
   });
 
+  // ============================================================
+  // Tシャツ掲示位置：先着順の空き状況チェック
+  // ============================================================
+  let selectedPosition = null;
+  let takenPositions = [];
+  const positionSelectedEl = document.getElementById('positionSelected');
+
+  function renderPositions(){
+    document.querySelectorAll('.pos-dot').forEach(dot => {
+      const pos = dot.dataset.pos;
+      const isTaken = takenPositions.includes(pos);
+      dot.classList.toggle('taken', isTaken);
+      dot.classList.toggle('selected', pos === selectedPosition && !isTaken);
+      dot.disabled = isTaken;
+    });
+    if (selectedPosition) {
+      positionSelectedEl.textContent = `選択中の位置：${selectedPosition}`;
+      positionSelectedEl.className = 'position-selected ok';
+    } else {
+      positionSelectedEl.textContent = '位置は未選択です';
+      positionSelectedEl.className = 'position-selected';
+    }
+  }
+
+  async function fetchTakenPositions(){
+    try {
+      // cache:'no-store' ＋ タイムスタンプ付与で、古い空き状況を絶対に見せない
+      const res = await fetch(`${GAS_WEB_APP_URL}?action=positions&_=${Date.now()}`, { cache: 'no-store' });
+      const data = await res.json();
+      takenPositions = data.taken || [];
+    } catch (err) {
+      // 取得失敗時は「わからない」ため、安全側に倒して全位置を選択不可にはしない
+      // （送信時にサーバー側で最終チェックするため、ここでは表示のみ）
+      takenPositions = [];
+    }
+    renderPositions();
+  }
+
+  document.querySelectorAll('.pos-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      if (dot.classList.contains('taken')) return;
+      selectedPosition = (selectedPosition === dot.dataset.pos) ? null : dot.dataset.pos;
+      renderPositions();
+    });
+  });
+
+  fetchTakenPositions();
+
   const logoInput = document.getElementById('logoFile');
   const preview = document.getElementById('logoPreview');
   let logoBase64 = "";
@@ -277,8 +368,15 @@
       statusMsg.className = 'status-msg error';
       return;
     }
+    if (!selectedPosition) {
+      statusMsg.textContent = 'Tシャツの掲示位置を選択してください';
+      statusMsg.className = 'status-msg error';
+      return;
+    }
+
     const payload = {
       plan: selectedPlan,
+      position: selectedPosition,
       companyName: document.getElementById('companyName').value,
       contactName: document.getElementById('contactName').value,
       contactKana: document.getElementById('contactKana').value,
@@ -293,12 +391,25 @@
     statusMsg.textContent = '送信中...';
 
     try {
-      // GASのCORS制約回避のためtext/plainで送信
-      await fetch(GAS_WEB_APP_URL, {
+      // GASのCORS制約回避のためtext/plainで送信。サーバー側で先着順の最終チェックを行う
+      const res = await fetch(GAS_WEB_APP_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
+      const result = await res.json();
+
+      if (result.result === 'position_taken') {
+        statusMsg.textContent = 'その位置はたった今、他の企業様に決まりました。別の位置を選び直してください';
+        statusMsg.className = 'status-msg error';
+        submitBtn.disabled = false;
+        selectedPosition = null;
+        await fetchTakenPositions();
+        return;
+      }
+      if (result.result !== 'success') {
+        throw new Error(result.message || 'unknown error');
+      }
 
       statusMsg.textContent = '送信が完了しました。決済ページに移動します…';
       statusMsg.className = 'status-msg ok';
