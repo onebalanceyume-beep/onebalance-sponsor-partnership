@@ -192,7 +192,7 @@
 
   <section>
     <div class="step-title"><span class="step-num">2</span>Tシャツの掲示位置を選ぶ</div>
-    <div class="position-note">先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。</div>
+    <div class="position-note">先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。（A・B・Cは対象外の固定枠です）</div>
     <div class="shirt-map" id="shirtMap">
       <img src="shirt_position_map.jpg" alt="Tシャツ掲示位置マップ" class="shirt-img">
       <button type="button" class="pos-dot" data-pos="A" style="left:23.2%; top:37.7%;">A</button>
@@ -289,6 +289,9 @@
   // ============================================================
   // Tシャツ掲示位置：先着順の空き状況チェック
   // ============================================================
+  // A・B・Cはスポンサー掲示位置として常に選択不可（固定枠）
+  const RESERVED_POSITIONS = ["A", "B", "C"];
+
   let selectedPosition = null;
   let takenPositions = [];
   const positionSelectedEl = document.getElementById('positionSelected');
@@ -296,7 +299,7 @@
   function renderPositions(){
     document.querySelectorAll('.pos-dot').forEach(dot => {
       const pos = dot.dataset.pos;
-      const isTaken = takenPositions.includes(pos);
+      const isTaken = takenPositions.includes(pos) || RESERVED_POSITIONS.includes(pos);
       dot.classList.toggle('taken', isTaken);
       dot.classList.toggle('selected', pos === selectedPosition && !isTaken);
       dot.disabled = isTaken;
