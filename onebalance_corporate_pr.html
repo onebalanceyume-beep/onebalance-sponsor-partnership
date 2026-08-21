@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>企業PR枠 お申し込み｜ONE BALANCE BOXING GYM</title>
+<style>
+  :root{
+    --red:#DB444C;
+    --red-dark:#B8323A;
+    --blue:#5BB9CD;
+    --navy:#191E2E;
+    --gray:#6B6B70;
+    --gold:#E3B23C;
+  }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; }
+  body{
+    font-family:"Helvetica Neue",Helvetica,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
+    background:#FAFAFA; color:var(--navy); line-height:1.7;
+  }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:560px; margin:0 auto; background:#fff; min-height:100vh; }
+  @media (min-width:900px){ .wrap{ box-shadow:0 0 40px rgba(0,0,0,0.06); min-height:auto; margin-top:32px; margin-bottom:32px; border-radius:20px; overflow:hidden; } }
+
+  .hero{ background:linear-gradient(135deg, var(--red), var(--red-dark)); color:#fff; padding:32px 20px 26px; text-align:center; }
+  .hero .badge{ display:inline-block; background:rgba(255,255,255,0.18); font-size:11.5px; font-weight:700; padding:6px 14px; border-radius:999px; margin-bottom:12px; letter-spacing:.03em; }
+  .hero h1{ font-size:21px; margin:0 0 8px; font-weight:800; }
+  .hero p{ font-size:13px; margin:0; opacity:.92; }
+
+  section{ padding:24px 20px 4px; }
+  .step-title{ font-size:15px; font-weight:800; margin:0 0 14px; display:flex; align-items:center; gap:8px; }
+  .step-num{ background:var(--navy); color:#fff; width:22px; height:22px; border-radius:50%; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none; }
+
+  .effect-box{ background:#FFF4E9; border:1px solid #F3D9B8; border-radius:14px; padding:16px 18px; font-size:13px; color:#5A4326; margin:0 0 24px; }
+  .effect-box b{ color:var(--red-dark); }
+
+  .plans{ display:flex; flex-direction:column; gap:14px; margin-bottom:6px; }
+  .plan-card{
+    border:2px solid #eee; border-radius:16px; padding:18px 18px 16px; cursor:pointer;
+    transition:border-color .15s, box-shadow .15s; position:relative; background:#fff;
+  }
+  .plan-card.selected{ border-color:var(--red); box-shadow:0 4px 16px rgba(219,68,76,0.18); background:#FFFAF9; }
+  .plan-card .check{
+    position:absolute; top:14px; right:14px; width:22px; height:22px; border-radius:50%;
+    border:2px solid #ddd; background:#fff;
+  }
+  .plan-card.selected .check{ border-color:var(--red); background:var(--red); }
+  .plan-card.selected .check::after{ content:"✓"; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; height:100%; }
+  .plan-card{ overflow:hidden; padding:0; }
+  .plan-card .card-head{ padding:16px 18px 14px; color:#fff; }
+  .plan-card .name{ font-size:13px; font-weight:700; opacity:.92; margin-bottom:2px; }
+  .plan-card .price{ font-size:26px; font-weight:800; color:#fff; }
+  .plan-card .price span{ font-size:12.5px; font-weight:600; opacity:.85; }
+  .plan-card .card-body{ padding:14px 18px 16px; }
+  .plan-card ul{ list-style:none; margin:0; padding:0; }
+  .plan-card li{ font-size:13.5px; color:#333; padding:4px 0; display:flex; gap:7px; }
+  .plan-card li::before{ content:"✓"; font-weight:700; flex:none; }
+  .plan-card .logo-hint{ margin-top:10px; font-size:11.5px; color:var(--gray); background:#F5F5F5; border-radius:8px; padding:8px 10px; }
+
+  .plan-card.pr1 .card-head{ background:linear-gradient(135deg, var(--blue), #3E8EA0); }
+  .plan-card.pr1 li::before{ color:var(--blue); }
+  .plan-card.pr1.selected{ border-color:var(--blue); box-shadow:0 4px 16px rgba(91,185,205,0.25); }
+  .plan-card.pr1.selected .check{ border-color:var(--blue); background:var(--blue); }
+
+  .plan-card.pr2 .card-head{ background:linear-gradient(135deg, var(--red), var(--red-dark)); }
+  .plan-card.pr2 li::before{ color:var(--red); }
+  .plan-card.pr2.selected{ border-color:var(--red); box-shadow:0 4px 16px rgba(219,68,76,0.22); }
+  .plan-card.pr2.selected .check{ border-color:var(--red); background:var(--red); }
+
+  .plan-card.pr3 .card-head{ background:linear-gradient(135deg, var(--gold), #9C7A1F); }
+  .plan-card.pr3 li::before{ color:#B8891F; }
+  .plan-card.pr3.selected{ border-color:var(--gold); box-shadow:0 4px 16px rgba(227,178,60,0.28); }
+  .plan-card.pr3.selected .check{ border-color:var(--gold); background:var(--gold); }
+
+  form{ margin-top:22px; }
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12.5px; font-weight:700; color:var(--gray); margin-bottom:6px; }
+  .field input, .field textarea{
+    width:100%; border:1px solid #ddd; border-radius:10px; padding:12px 13px; font-size:15px;
+    font-family:inherit; background:#fff; color:var(--navy);
+  }
+  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--red); }
+  .field textarea{ resize:vertical; min-height:56px; }
+
+  .upload-box{
+    border:2px dashed #ddd; border-radius:14px; padding:18px; text-align:center; margin:6px 0 18px; background:#FAFAFA;
+  }
+  .upload-box input[type=file]{ display:block; margin:10px auto 0; font-size:13px; }
+  .upload-box .file-note{ font-size:11.5px; color:var(--gray); margin-top:8px; }
+  .upload-box .preview{ margin-top:12px; max-width:180px; margin-left:auto; margin-right:auto; border-radius:8px; overflow:hidden; display:none; }
+
+  .submit-btn{
+    display:block; width:100%; text-align:center; border:none; cursor:pointer;
+    background:linear-gradient(135deg, var(--red), var(--red-dark)); color:#fff;
+    font-weight:800; font-size:16px; border-radius:999px; padding:16px 0; margin:8px 0 6px;
+  }
+  .submit-btn:disabled{ opacity:.5; }
+  .submit-btn:active{ opacity:.85; }
+
+  .status-msg{ text-align:center; font-size:13px; margin:10px 0 0; min-height:18px; }
+  .status-msg.error{ color:var(--red); }
+  .status-msg.ok{ color:#1E7A4C; }
+
+  .note-box{ margin:20px 0 24px; background:#FAFAFA; border-radius:12px; padding:14px 16px; font-size:11.5px; color:var(--gray); }
+  footer{ text-align:center; padding:20px; font-size:11px; color:#aaa; }
+  .backlink{ text-align:center; padding:0 20px 8px; }
+  .backlink a{ font-size:13px; color:var(--gray); text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="badge">CORPORATE PR PARTNER</div>
+    <h1>企業PR枠のご案内</h1>
+    <p>御社のロゴを、地域No.1のボクシングジムYouTubeチャンネルと連動した広告枠に掲載します</p>
+  </div>
+
+  <section>
+    <div class="effect-box">
+      <b>直近1年間の実績：</b>YouTubeチャンネル総視聴回数 153.3万回／総再生時間 4.5万時間（前年比+40%）。米子市の人口（約15万人）の約10倍にあたるブランド接触が、1年間積み上がっています。企業PR枠は児童養護施設支援パートナーシップとは別枠のプランです。実績・規模のある企業様向けの広告掲載枠としてご案内しています。
+    </div>
+
+    <div class="step-title"><span class="step-num">1</span>プランを選ぶ（タップして選択）</div>
+    <div class="plans" id="plans">
+
+      <div class="plan-card pr1" data-plan="PR88000" data-price="88,000">
+        <div class="check"></div>
+        <div class="card-head">
+          <div class="name">企業PRパートナー</div>
+          <div class="price">¥88,000<span>/年（税込）</span></div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>看板・ロゴ掲示（ジム内）</li>
+            <li>Tシャツにロゴ掲載（年間）</li>
+          </ul>
+          <div class="logo-hint">ロゴ画像：正方形推奨（1:1）／掲載サイズ：小</div>
+        </div>
+      </div>
+
+      <div class="plan-card pr2" data-plan="PR120000" data-price="120,000">
+        <div class="check"></div>
+        <div class="card-head">
+          <div class="name">企業PRパートナー・プレミアム</div>
+          <div class="price">¥120,000<span>/年（税込）</span></div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>看板・ロゴ掲示（ジム内・上位スペース）</li>
+            <li>Tシャツにロゴ掲載（年間）</li>
+          </ul>
+          <div class="logo-hint">ロゴ画像：正方形推奨（1:1）／掲載サイズ：中</div>
+        </div>
+      </div>
+
+      <div class="plan-card pr3" data-plan="PR220000" data-price="220,000">
+        <div class="check"></div>
+        <div class="card-head">
+          <div class="name">企業PRパートナー・ゴールド</div>
+          <div class="price">¥220,000<span>/年（税込）</span></div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>看板・ロゴを大型掲示（ジム内・最優先スペース）</li>
+            <li>Tシャツにロゴを大きく掲載（年間）</li>
+          </ul>
+          <div class="logo-hint">ロゴ画像：横長推奨（2:1）／掲載サイズ：大</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="step-title"><span class="step-num">2</span>お申し込み情報</div>
+    <form id="applyForm">
+      <div class="field">
+        <label for="companyName">会社名</label>
+        <input type="text" id="companyName" required>
+      </div>
+      <div class="field">
+        <label for="contactName">ご担当者様お名前</label>
+        <input type="text" id="contactName" required>
+      </div>
+      <div class="field">
+        <label for="contactKana">ご担当者様お名前（フリガナ）</label>
+        <input type="text" id="contactKana" required>
+      </div>
+      <div class="field">
+        <label for="address">会社住所</label>
+        <textarea id="address" required></textarea>
+      </div>
+      <div class="field">
+        <label for="email">メールアドレス</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="step-title"><span class="step-num">3</span>ロゴ画像をアップロード（任意）</div>
+      <div class="upload-box">
+        <div style="font-size:13px;color:#444;">選んだプランに合わせた比率でご用意ください</div>
+        <input type="file" id="logoFile" accept="image/png,image/jpeg">
+        <img id="logoPreview" class="preview">
+        <div class="file-note">PNG／JPG、5MBまで。送信後、担当者フォルダに自動保存されます<br>ロゴがまだ決まっていない場合は空欄のまま送信いただいて構いません。後日こちらからご連絡いたします。</div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">申し込み内容を送信する</button>
+      <div class="status-msg" id="statusMsg"></div>
+    </form>
+
+    <div class="note-box">
+      ※ 送信後、決済ページ（Stripe）に移動します。決済完了をもってお申し込み確定となります。ご入力いただいたメールアドレス宛に受付確認メールをお送りします。
+    </div>
+  </section>
+
+  <div class="backlink">
+    <a href="onebalance_sponsor_proposal.html">← ホームページに戻る</a>
+  </div>
+
+  <footer>ONE BALANCE BOXING GYM ー 企業PR枠</footer>
+</div>
+
+<script>
+  // ============================================================
+  // 【設定】ここを書き換えてください
+  // ============================================================
+  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzlnOkZ7cc-7Ojca65EuLQ6EQKyvvgaW6wMK7oE7XFod4Z34jQ3Ew6FxHMG1a22Sur1/exec"; // GAS「ウェブアプリとしてデプロイ」で発行されるURL
+  const STRIPE_LINKS = {
+    PR88000:  "https://buy.stripe.com/9B6cN65TPgbi0bic1vffy0w",
+    PR120000: "https://buy.stripe.com/fZu7sMfup2kse28fdHffy0x",
+    PR220000: "https://buy.stripe.com/fZu8wQdmhaQYgag1mRffy0y"
+  };
+  // ============================================================
+
+  let selectedPlan = null;
+
+  document.querySelectorAll('.plan-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedPlan = card.dataset.plan;
+    });
+  });
+
+  const logoInput = document.getElementById('logoFile');
+  const preview = document.getElementById('logoPreview');
+  let logoBase64 = "";
+  let logoMime = "";
+  let logoName = "";
+
+  logoInput.addEventListener('change', () => {
+    const file = logoInput.files[0];
+    if (!file) return;
+    logoMime = file.type;
+    logoName = file.name;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      logoBase64 = e.target.result.split(',')[1];
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const form = document.getElementById('applyForm');
+  const statusMsg = document.getElementById('statusMsg');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusMsg.textContent = '';
+    statusMsg.className = 'status-msg';
+
+    if (!selectedPlan) {
+      statusMsg.textContent = 'プランを選択してください';
+      statusMsg.className = 'status-msg error';
+      return;
+    }
+    const payload = {
+      plan: selectedPlan,
+      companyName: document.getElementById('companyName').value,
+      contactName: document.getElementById('contactName').value,
+      contactKana: document.getElementById('contactKana').value,
+      address: document.getElementById('address').value,
+      email: document.getElementById('email').value,
+      logoBase64: logoBase64,
+      logoMime: logoMime,
+      logoName: logoName
+    };
+
+    submitBtn.disabled = true;
+    statusMsg.textContent = '送信中...';
+
+    try {
+      // GASのCORS制約回避のためtext/plainで送信
+      await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      statusMsg.textContent = '送信が完了しました。決済ページに移動します…';
+      statusMsg.className = 'status-msg ok';
+
+      setTimeout(() => {
+        const link = STRIPE_LINKS[selectedPlan];
+        if (link && link.indexOf('PASTE_') !== 0) {
+          window.location.href = link;
+        } else {
+          window.location.href = 'onebalance_thank_you_sponsor.html';
+        }
+      }, 1200);
+
+    } catch (err) {
+      statusMsg.textContent = '送信に失敗しました。時間をおいて再度お試しください';
+      statusMsg.className = 'status-msg error';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
