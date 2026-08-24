@@ -214,5 +214,73 @@
 
   <footer>ONE BALANCE BOXING GYM ー HAPPY KIDS PROJECT</footer>
 </div>
+  <script>
+    (function(){
+        var GAS_URL = "https://script.google.com/macros/s/AKfycbxoloA6vosntdBfDgHx2tHyMA7W91dcPcDu1XqcNkiAmgmKi8we7_8u9rRI8QiuFMn-7w/exec";
+        var PLAN_INFO = [
+          {plan: "①スポンサー", amount: 5500},
+          {plan: "②スポンサー", amount: 11000},
+          {plan: "③スポンサー", amount: 19800},
+          {plan: "④スポンサー", amount: 39600},
+          {plan: "⑤ゴールドスポンサー", amount: 88000}
+            ];
+      var pendingHref = "", pendingPlan = "", pendingAmount = 0;
+
+      var overlay = document.createElement("div");
+      overlay.style.cssText = "position:fixed;inset:0;background:rgba(25,30,46,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;";
+      var box = document.createElement("div");
+      box.style.cssText = "background:#fff;border-radius:16px;max-width:340px;width:100%;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,.25);font-family:inherit;";
+      box.innerHTML =
+        '<div style="font-weight:700;font-size:16px;margin-bottom:12px;color:#191E2E;">お名前をご入力ください</div>' +
+        '<input id="hkNameInput" type="text" placeholder="お名前（法人名でも可）" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;margin-bottom:6px;">' +
+        '<div id="hkNameError" style="color:#DB444C;font-size:13px;margin-bottom:8px;display:none;">お名前を入力してください</div>' +
+        '<button id="hkNameSubmit" style="width:100%;padding:14px;border:none;border-radius:24px;background:#5BB9CD;color:#fff;font-size:15px;font-weight:700;margin-bottom:8px;">決済に進む</button>' +
+        '<button id="hkNameCancel" style="width:100%;padding:10px;border:none;background:none;color:#999;font-size:13px;">キャンセル</button>';
+      overlay.appendChild(box);
+      document.body.appendChild(overlay);
+      function openModal(){
+        document.getElementById("hkNameInput").value = "";
+        document.getElementById("hkNameError").style.display = "none";
+        var btn = document.getElementById("hkNameSubmit");
+        btn.disabled = false;
+        btn.textContent = "決済に進む";
+        overlay.style.display = "flex";
+        setTimeout(function(){ document.getElementById("hkNameInput").focus(); }, 50);
+      }
+
+      function submitName(){
+        var input = document.getElementById("hkNameInput");
+        var name = input.value.trim();
+        if (!name) { document.getElementById("hkNameError").style.display = "block"; return; }
+        var btn = document.getElementById("hkNameSubmit");
+        btn.disabled = true;
+        btn.textContent = "送信中…";
+        fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {"Content-Type": "text/plain"},
+          body: JSON.stringify({name: name, plan: pendingPlan, amount: pendingAmount})
+        }).catch(function(){}).finally(function(){
+          overlay.style.display = "none";
+          window.location.href = pendingHref;
+        });
+      }
+      document.getElementById("hkNameCancel").addEventListener("click", function(){ overlay.style.display = "none"; });
+      document.getElementById("hkNameSubmit").addEventListener("click", submitName);
+      document.getElementById("hkNameInput").addEventListener("keydown", function(e){ if (e.key === "Enter") submitName(); });
+
+      var buttons = document.querySelectorAll("a.buy-btn");
+      buttons.forEach(function(btn, idx){
+        btn.addEventListener("click", function(e){
+          e.preventDefault();
+          pendingHref = btn.getAttribute("href");
+          var info = PLAN_INFO[idx] || {};
+          pendingPlan = info.plan || "";
+          pendingAmount = info.amount || 0;
+          openModal();
+        });
+      });
+    })();
+</script>
 </body>
 </html>
