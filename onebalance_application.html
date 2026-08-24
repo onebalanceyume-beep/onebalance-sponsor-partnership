@@ -95,26 +95,29 @@
 
   <!-- STEP1 プラン選択 -->
   <section>
-    <h2 class="step-title"><span class="step-num">1</span>プランを選ぶ</h2>
-    <div class="plan-option" data-plan="Bronze" data-price="¥5,000">
-      <input type="radio" name="plan" value="Bronze (¥5,000)">
-      <div class="info"><div class="name">Bronze <span class="price">¥5,000</span></div>
+    <h2 class="step-title" id="step1Title"><span class="step-num">1</span>プランを選ぶ</h2>
+    <div id="planNote" style="display:none; font-size:12px; color:var(--gray); margin:-6px 0 14px;">
+      他のプランをご希望の場合は、<a href="onebalance_sponsor_proposal.html" style="color:var(--red);">ホームページに戻って</a>選び直してください。
+    </div>
+    <div class="plan-option" data-plan="Bronze" data-price="¥5,500">
+      <input type="radio" name="plan" value="Bronze (¥5,500)">
+      <div class="info"><div class="name">Bronze <span class="price">¥5,500</span></div>
       <div class="desc">スポンサーボード掲示／認定シール贈呈</div></div>
+    </div>
+    <div class="plan-option" data-plan="BronzePlus" data-price="¥11,000">
+      <input type="radio" name="plan" value="Bronze+ (¥11,000)">
+      <div class="info"><div class="name">Bronze+ <span class="price">¥11,000</span></div>
+      <div class="desc">スポンサーボード掲示（4倍サイズ）／1年間掲示／認定シール贈呈</div></div>
     </div>
     <div class="plan-option" data-plan="Silver" data-price="¥19,800">
       <input type="radio" name="plan" value="Silver (¥19,800)">
       <div class="info"><div class="name">Silver <span class="price">¥19,800</span></div>
-      <div class="desc">スポンサーボード／YouTube宣伝（年間）／お礼状／認定シール</div></div>
+      <div class="desc">パートナーボード／YouTube宣伝（年間）／お礼状／認定シール</div></div>
     </div>
-    <div class="plan-option" data-plan="Gold" data-price="¥39,800">
-      <input type="radio" name="plan" value="Gold (¥39,800)">
-      <div class="info"><div class="name">Gold <span class="price">¥39,800</span></div>
-      <div class="desc">スポンサーボード4倍／YouTube／Tシャツ掲示／お礼状／認定シール</div></div>
-    </div>
-    <div class="plan-option" data-plan="Platinum" data-price="¥88,000">
-      <input type="radio" name="plan" value="Platinum (¥88,000)">
-      <div class="info"><div class="name">Platinum <span class="price">¥88,000</span></div>
-      <div class="desc">スポンサーボード6倍／YouTube／Tシャツ2倍サイズ／お礼状／認定シール</div></div>
+    <div class="plan-option" data-plan="Gold" data-price="¥39,600">
+      <input type="radio" name="plan" value="Gold (¥39,600)">
+      <div class="info"><div class="name">Gold <span class="price">¥39,600</span></div>
+      <div class="desc">パートナーボード4倍／YouTube宣伝（年間）／お礼状／認定シール</div></div>
     </div>
   </section>
 
@@ -160,8 +163,12 @@
   <!-- STEP5 お申し込み情報 -->
   <section>
     <h2 class="step-title"><span class="step-num">5</span>お申し込み情報</h2>
-    <div class="field"><label>会社名</label><input type="text" id="companyName" placeholder="〇〇株式会社"></div>
-    <div class="field"><label>ご担当者名</label><input type="text" id="personName" placeholder="山田 太郎"></div>
+    <div class="field">
+      <label>会社名</label>
+      <input type="text" id="companyName" placeholder="〇〇株式会社">
+      <div style="font-size:11.5px; color:var(--gray); margin-top:5px;">※個人の方は空欄のままで大丈夫です</div>
+    </div>
+    <div class="field"><label>ご担当者名</label><input type="text" id="personName" placeholder="木村 拓哉"></div>
     <div class="field"><label>ご住所</label><input type="text" id="address" placeholder="鳥取県米子市…"></div>
     <div class="field"><label>メールアドレス</label><input type="email" id="email" placeholder="example@mail.com"></div>
     <div class="field"><label>電話番号</label><input type="tel" id="tel" placeholder="0859-00-0000"></div>
@@ -211,15 +218,35 @@
   function validate(){
     const planSelected = document.querySelector('input[name="plan"]:checked');
     const allChecked = checks.every(c => c.checked);
-    const fieldsFilled = ['companyName','personName','email'].every(id => document.getElementById(id).value.trim() !== '');
+    const fieldsFilled = ['personName','email'].every(id => document.getElementById(id).value.trim() !== '');
     submitBtn.disabled = !(planSelected && allChecked && fieldsFilled);
   }
 
+  // ============================================================
+  // URLの ?plan=Silver のようなパラメータでプランが指定されている場合は、
+  // 「1. プランを選ぶ」を選択済み表示にして、選び直せないようにする
+  // ============================================================
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const preselect = params.get('plan');
+    const validPlans = ['Bronze', 'BronzePlus', 'Silver', 'Gold'];
+    if (preselect && validPlans.includes(preselect)) {
+      const match = document.querySelector('.plan-option[data-plan="' + preselect + '"]');
+      if (match) {
+        match.click();
+        planOptions.forEach(o => { if (o !== match) o.style.display = 'none'; });
+        match.style.cursor = 'default';
+        document.getElementById('step1Title').innerHTML = '<span class="step-num">1</span>お申し込みプラン';
+        document.getElementById('planNote').style.display = 'block';
+      }
+    }
+  })();
+
   const STRIPE_LINKS = {
-    'Bronze': null,
+    'Bronze': 'https://buy.stripe.com/4gM5kEaa5bV23nu0iNffy0u',
+    'BronzePlus': 'https://buy.stripe.com/eVqdRafup7EM2jq0iNffy0v',
     'Silver': 'https://buy.stripe.com/8x228sbe91go5vCd5zffy0f',
-    'Gold': 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p',
-    'Platinum': 'https://buy.stripe.com/28E8wQbe98IQgag8Pjffy0o'
+    'Gold': 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p'
   };
 
   submitBtn.addEventListener('click', () => {
@@ -231,11 +258,12 @@
     const email = document.getElementById('email').value;
     const tel = document.getElementById('tel').value;
 
-    const subject = encodeURIComponent('HAPPY KIDS PROJECT パートナー申込み【' + company + '】');
+    const companyDisplay = company.trim() !== '' ? company : '個人でのお申し込み';
+    const subject = encodeURIComponent('HAPPY KIDS PROJECT パートナー申込み【' + companyDisplay + '】');
     const body = encodeURIComponent(
       'HAPPY KIDS PROJECT パートナーシップ お申し込み\n\n' +
       '■選択プラン：' + plan + '\n\n' +
-      '■会社名：' + company + '\n' +
+      '■会社名：' + companyDisplay + '\n' +
       '■ご担当者名：' + person + '\n' +
       '■ご住所：' + address + '\n' +
       '■メールアドレス：' + email + '\n' +
