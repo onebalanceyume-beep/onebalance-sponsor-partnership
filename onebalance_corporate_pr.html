@@ -152,8 +152,12 @@
           <ul>
             <li>看板・ロゴ掲示（ジム内）</li>
             <li>Tシャツにロゴ掲載（年間）</li>
+            <li>YouTube動画概要欄に企業名＋リンク掲載</li>
+            <li>大会当日：会場ボードに掲示</li>
+            <li>社員様向け無料体験レッスン券 1枚</li>
           </ul>
-          <div class="logo-hint">ロゴ画像：正方形推奨（1:1）／掲載サイズ：小</div>
+          <div class="logo-hint">ロゴ画像：横長推奨（2:1）／掲載サイズ：小</div>
+          <div class="logo-hint" style="margin-top:6px;">※Tシャツの掲示位置は、上位プラン（プレミアム・ゴールド）のお申し込み企業様から優先的にお選びいただけます</div>
         </div>
       </div>
 
@@ -167,6 +171,9 @@
           <ul>
             <li>看板・ロゴ掲示（ジム内・上位スペース）</li>
             <li>Tシャツにロゴ掲載（年間）</li>
+            <li>YouTube動画概要欄に企業名＋リンク掲載</li>
+            <li>大会当日：会場ボード掲示＋開会アナウンスで紹介</li>
+            <li>社員様向け無料体験レッスン券 2枚</li>
           </ul>
           <div class="logo-hint">ロゴ画像：正方形推奨（1:1）／掲載サイズ：中</div>
         </div>
@@ -182,6 +189,9 @@
           <ul>
             <li>看板・ロゴを大型掲示（ジム内・最優先スペース）</li>
             <li>Tシャツにロゴを大きく掲載（年間）</li>
+            <li>YouTube動画概要欄に企業名＋リンク掲載（上位表示）</li>
+            <li>大会当日：会場ボード掲示（大）＋開会・閉会アナウンスで紹介＋ジム壁面に記念ボード常設掲示</li>
+            <li>社員様向け無料体験レッスン券 3枚</li>
           </ul>
           <div class="logo-hint">ロゴ画像：横長推奨（2:1）／掲載サイズ：大</div>
         </div>
@@ -192,7 +202,7 @@
 
   <section>
     <div class="step-title"><span class="step-num">2</span>Tシャツの掲示位置を選ぶ</div>
-    <div class="position-note">先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。（A・B・Cは対象外の固定枠です）</div>
+    <div class="position-note" id="positionNote">先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。（A・B・Cは対象外の固定枠です）</div>
     <div class="shirt-map" id="shirtMap">
       <img src="shirt_position_map.jpg" alt="Tシャツ掲示位置マップ" class="shirt-img">
       <button type="button" class="pos-dot" data-pos="A" style="left:23.2%; top:37.7%;">A</button>
@@ -278,11 +288,29 @@
 
   let selectedPlan = null;
 
+  // 企業PRパートナー・プレミアム（ロゴ正方形1:1）は、正方形の掲示位置のみ選択可
+  const SQUARE_ONLY_POSITIONS = ["E", "F", "J", "K", "L", "M"];
+  const positionNoteEl = document.getElementById('positionNote');
+
+  function updatePositionNote(){
+    if (selectedPlan === 'PR132000') {
+      positionNoteEl.textContent = '企業PRパートナー・プレミアムプラン（ロゴ正方形1:1）は、正方形の掲示位置（E・F・J・K・L・M）のみお選びいただけます。それ以外の位置は選択できません。';
+    } else {
+      positionNoteEl.textContent = '先着順です。すでに埋まっている位置は選べません。空いている位置をタップして選択してください。（A・B・Cは対象外の固定枠です）';
+    }
+  }
+
   document.querySelectorAll('.plan-card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       selectedPlan = card.dataset.plan;
+      updatePositionNote();
+      // プラン変更で選択位置が対象外になった場合は選び直してもらう
+      if (selectedPosition && !isAllowedForPlan(selectedPosition)) {
+        selectedPosition = null;
+      }
+      renderPositions();
     });
   });
 
@@ -296,10 +324,15 @@
   let takenPositions = [];
   const positionSelectedEl = document.getElementById('positionSelected');
 
+  function isAllowedForPlan(pos){
+    if (selectedPlan === 'PR132000') return SQUARE_ONLY_POSITIONS.includes(pos);
+    return true;
+  }
+
   function renderPositions(){
     document.querySelectorAll('.pos-dot').forEach(dot => {
       const pos = dot.dataset.pos;
-      const isTaken = takenPositions.includes(pos) || RESERVED_POSITIONS.includes(pos);
+      const isTaken = takenPositions.includes(pos) || RESERVED_POSITIONS.includes(pos) || !isAllowedForPlan(pos);
       dot.classList.toggle('taken', isTaken);
       dot.classList.toggle('selected', pos === selectedPosition && !isTaken);
       dot.disabled = isTaken;
