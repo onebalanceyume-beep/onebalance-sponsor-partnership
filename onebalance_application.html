@@ -126,7 +126,7 @@
     <h2 class="step-title"><span class="step-num">2</span>契約期間・お支払いについて</h2>
     <div class="speak">
       <span class="tag">一緒に読み上げる内容</span>
-      このパートナーシップは、1年間の契約となります。お支払いはクレジットカードで、期間が終わる前に特にご連絡がなければ、同じ内容でもう1年、自動的に更新される仕組みです。もしその年で終わりにしたい場合は、更新日より前に、LINE公式アカウントからメッセージでお知らせください。それだけで更新を止めることができます。なお、年の途中で「やめたい」となった場合でも、その年の分の協賛金の返金は行っておらず、契約はその年の終わりまで有効という形になります。また、契約終了後も、すでに公開されているYouTube動画にはそのまま社名等が残り続ける場合があります。スポンサーボードの掲示物についても、諸事情によりすぐには取り外せない場合がありますので、あらかじめご了承ください。
+      このパートナーシップは、1年間の契約となります。お支払いはクレジットカードで、期間が終わる前に特にご連絡がなければ、同じ内容でもう1年、自動的に更新される仕組みです。もしその年で終わりにしたい場合は、更新日より前に、<a href="https://lin.ee/ndHYXXf" target="_blank" rel="noopener" style="color:var(--red); font-weight:700;">LINE公式アカウント</a>からメッセージでお知らせください。それだけで更新を止めることができます。なお、年の途中で「やめたい」となった場合でも、その年の分の協賛金の返金は行っておらず、契約はその年の終わりまで有効という形になります。また、契約終了後も、すでに公開されているYouTube動画にはそのまま社名等が残り続ける場合があります。スポンサーボードの掲示物についても、諸事情によりすぐには取り外せない場合がありますので、あらかじめご了承ください。
     </div>
     <div class="check-row">
       <input type="checkbox" id="check1">
@@ -191,9 +191,10 @@
 
 <div id="thanks">
   <div class="big">お申し込みありがとうございます</div>
-  <p>開いたメールをそのまま送信していただければ、お申し込みが完了します。</p>
+  <p>ご入力いただいたメールアドレス宛に、お申し込み内容と決済ページのご案内をお送りしました。</p>
+  <a href="https://lin.ee/ndHYXXf" target="_blank" rel="noopener" style="display:block; margin-top:20px; background:#06C755; color:#fff; font-weight:700; font-size:15px; border-radius:14px; padding:16px; text-decoration:none;">LINE公式アカウントを友だち追加する</a>
+  <p style="font-size:11.5px;color:#999;margin-top:8px;">ご不明な点は、こちらのLINEからお気軽にご連絡ください。</p>
   <div id="paymentArea" style="margin-top:24px;"></div>
-  <p style="font-size:11.5px;color:#999;margin-top:26px;">担当よりあらためてご連絡いたします。</p>
 </div>
 
 <script>
@@ -249,30 +250,52 @@
     'Gold': 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p'
   };
 
-  submitBtn.addEventListener('click', () => {
+  const PLAN_AMOUNTS = { 'Bronze': 5500, 'BronzePlus': 11000, 'Silver': 19800, 'Gold': 39600 };
+  const PLAN_DISPLAY_LABELS = {
+    'Bronze': 'Bronze（¥5,500）',
+    'BronzePlus': 'Bronze+（¥11,000）',
+    'Silver': 'Silver（¥19,800）',
+    'Gold': 'Gold（¥39,600）'
+  };
+
+  // すでにデプロイ済みの「Happy Kids partner endpoint」のURL
+  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxoloA6vosntdBfDgHx2tHyMA7W91dcPcDu1XqcNkiAmgmKi8we7_8u9rRI8QiuFMn-7w/exec';
+
+  submitBtn.addEventListener('click', async () => {
     const planKey = document.querySelector('.plan-option.selected').dataset.plan;
-    const plan = document.querySelector('input[name="plan"]:checked').value;
     const company = document.getElementById('companyName').value;
     const person = document.getElementById('personName').value;
     const address = document.getElementById('address').value;
     const email = document.getElementById('email').value;
     const tel = document.getElementById('tel').value;
 
-    const companyDisplay = company.trim() !== '' ? company : '個人でのお申し込み';
-    const subject = encodeURIComponent('HAPPY KIDS PROJECT パートナー申込み【' + companyDisplay + '】');
-    const body = encodeURIComponent(
-      'HAPPY KIDS PROJECT パートナーシップ お申し込み\n\n' +
-      '■選択プラン：' + plan + '\n\n' +
-      '■会社名：' + companyDisplay + '\n' +
-      '■ご担当者名：' + person + '\n' +
-      '■ご住所：' + address + '\n' +
-      '■メールアドレス：' + email + '\n' +
-      '■電話番号：' + tel + '\n\n' +
-      '契約期間・お支払い／会計処理／ロゴ掲載について、\n' +
-      '説明を受けたうえで内容を確認し、同意しました。'
-    );
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
 
-    window.location.href = 'mailto:feel.good.yoshi3@gmail.com?subject=' + subject + '&body=' + body;
+    const payload = {
+      name: person,
+      plan: PLAN_DISPLAY_LABELS[planKey] || planKey,
+      planKey: planKey,
+      amount: PLAN_AMOUNTS[planKey] || 0,
+      companyName: company,
+      address: address,
+      email: email,
+      tel: tel
+    };
+
+    // GASのCORS制約回避のためtext/plainで送信。入力いただいたメールアドレス宛に
+    // 決済URL・LINEのURL入りの確認メールが自動で届く仕組み
+    {
+      try {
+        await fetch(GAS_WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        // 送信に失敗しても、画面上のLINE・決済ボタンで完結できるようそのまま進める
+      }
+    }
 
     const paymentArea = document.getElementById('paymentArea');
     const link = STRIPE_LINKS[planKey];
@@ -287,7 +310,7 @@
     } else {
       paymentArea.innerHTML =
         '<div style="font-size:13px;color:var(--gray);text-align:center;line-height:1.7;">' +
-        'Bronzeプランのお支払いリンクは近日公開予定です。<br>担当より別途ご案内いたします。</div>';
+        'お支払いリンクをご案内できませんでした。<br>上のLINE公式アカウントよりご連絡ください。</div>';
     }
 
     document.getElementById('formWrap').style.display = 'none';
