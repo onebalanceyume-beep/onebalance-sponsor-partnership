@@ -192,7 +192,7 @@
 <div id="thanks">
   <div class="big">お申し込みありがとうございます</div>
   <p>ご入力いただいたメールアドレス宛に、お申し込み内容と決済ページのご案内をお送りしました。</p>
-  <a href="https://lin.ee/ndHYXXf" target="_blank" rel="noopener" style="display:block; margin-top:20px; background:#06C755; color:#fff; font-weight:700; font-size:15px; border-radius:14px; padding:16px; text-decoration:none;">LINE公式アカウントを友だち追加する</a>
+  <a id="thanksLine" href="https://lin.ee/ndHYXXf" target="_blank" rel="noopener" style="display:block; margin-top:20px; background:#06C755; color:#fff; font-weight:700; font-size:15px; border-radius:14px; padding:16px; text-decoration:none;">LINE公式アカウントを友だち追加する</a>
   <p style="font-size:11.5px;color:#999;margin-top:8px;">ご不明な点は、こちらのLINEからお気軽にご連絡ください。</p>
   <div id="paymentArea" style="margin-top:24px;"></div>
 </div>
@@ -311,6 +311,11 @@
       paymentArea.innerHTML =
         '<div style="font-size:13px;color:var(--gray);text-align:center;line-height:1.7;">' +
         'お支払いリンクをご案内できませんでした。<br>上のLINE公式アカウントよりご連絡ください。</div>';
+    }
+
+    // Silver・Gold は HAPPY KIDS のLINE、Bronze系はジムのLINE
+    if (planKey === 'Silver' || planKey === 'Gold') {
+      document.getElementById('thanksLine').href = 'https://lin.ee/9v4jPNb';
     }
 
     document.getElementById('formWrap').style.display = 'none';
