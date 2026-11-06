@@ -15,7 +15,7 @@ const HK_INVOICE = {
   ISSUER_NAME: 'HAPPY KIDS PROJECT 鳥取',
   ISSUER_ADDRESS: '鳥取県米子市車尾6丁目8-59',
   ISSUER_TEL: '0859-49-5275',
-  BANK_INFO: '【ここに振込先を入力：銀行名／支店名／預金種別／口座番号／口座名義】',
+  BANK_INFO: '山陰合同銀行 ／ 店番080 ／ 普通預金 ／ 口座番号 3795597 ／ 口座名義 ワンバランスボクシングジム 長尾 儀弘',
   DESCRIPTION: 'ハッピーキッズパートナーシップ年間契約として',
   COLOR: '#DD0B1B',
   FOLDER_NAME: 'HAPPY KIDS 請求書'
@@ -226,7 +226,7 @@ function hkPartnerPost_(e) {
           '請求書をお送りいたしますので、お支払期限（' + hkFmt_(due) + '）までに、請求書記載の口座へお振込みをお願いいたします。\n\n' +
           'ご請求金額：' + hkYen_(pr.amount) + '（' + HK_MANAGE.TAX_LABEL + '）\n' +
           '契約期間：' + hkFmt_(now) + '〜' + hkFmt_(pr.end) + '（月割り ' + pr.months + 'ヶ月）\n次回更新：' + hkFmt_(pr.nextStart) + '\n\n' +
-          'ご不明な点は、公式LINEよりお気軽にご連絡ください。\n' + lineUrl + '\n\n' + owner + '\nHAPPY KIDS PROJECT 鳥取',
+          'ご不明な点は、公式LINEよりお気軽にご連絡ください。\n' + lineUrl + '\n\n' + owner,
           { attachments: [pdf], name: owner }
         );
       }
