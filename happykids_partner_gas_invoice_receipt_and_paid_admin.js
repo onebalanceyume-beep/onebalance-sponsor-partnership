@@ -1,13 +1,14 @@
 // ============================================================
-// HAPPY KIDS PROJECT パートナー申込み GAS 差し替え用コード（請求書の自動送信＋領収書の自動送信つき）
+// HAPPY KIDS PROJECT パートナー申込み GAS 差し替え用コード（請求書・領収書の自動送信＋入金確認アプリ対応・黄色デザイン）
 // 貼り付け位置：GASエディタの「コード」で
-//   「// ===== 請求書・メールの設定」の行から「// ===== 受付の振り分け」の行の直前まで を全部消して、これを貼る
+//   「// ===== 請求書・メールの設定」の行から、ファイルの一番最後まで を全部消して、これを貼る
 // できること：
 //  1) 口座振込＝請求書PDFを作ってそのまま申込者へ自動送信 → ヨシさんへ「送信済み」報告
 //  2) カード＝Stripeリンク付きメールを自動送信（日割りなし・申込日から1年）
 //  3) 申込みは「HAPPY KIDS PROJECT パートナー契約・更新管理」シートに自動で1行追加
 //  4) シートの「状態」を「入金済」に変えるだけで、領収書PDFを申込者へ自動送信 → ヨシさんへ報告
-//     （初回だけ hkSetupReceiptTrigger を1回実行して、領収書の自動送信をONにする）
+//     （初回だけ hkSetupReceiptTrigger を1回実行して、シート編集での領収書の自動送信をONにする）
+//  5) GitHubの「入金確認アプリ」から、入金済／入金待ちを操作できる（暗証番号つき・管理シートと連動）
 // ============================================================
 
 // ===== 請求書・メールの設定（変えたいときはここだけ） =====
@@ -18,9 +19,19 @@ const HK_INVOICE = {
   BANK_INFO: '山陰合同銀行 ／ 店番080 ／ 普通預金 ／ 口座番号 3795597 ／ 口座名義 ワンバランスボクシングジム 長尾 儀弘',
   DESCRIPTION: 'ハッピーキッズパートナーシップ年間契約として',   // 請求書の内容・領収書の但し書き
   STAMP_NOTE: '電子発行のため、収入印紙は不要です。',
-  COLOR: '#DD0B1B',
+  COLOR: '#FCC30B',          // HAPPY KIDSのロゴの太陽の黄色
+  SOFT: '#FFF6D1',           // うすい黄色（表の見出し）
+  INK: '#222222',            // 黄色の上に載せる文字色
   FOLDER_NAME: 'HAPPY KIDS 請求書',
   RECEIPT_FOLDER_NAME: 'HAPPY KIDS 領収書'
+};
+
+// 入金確認アプリ（GitHubのウェブアプリ）の設定
+const HK_ADMIN = {
+  PIN: '【ここに暗証番号を入れる（8桁以上の数字）】',   // ← 管理画面の暗証番号：この行の【〜】を数字だけに書き換える
+  MAX_FAIL: 5,                                          // 間違えてよい回数
+  LOCK_MIN: 10,                                         // 超えたらロックする分数
+  APP_URL: 'https://onebalanceyume-beep.github.io/onebalance-sponsor-partnership/happykids_partner_paid_admin_app.html'
 };
 
 // 年額（税込）
@@ -80,13 +91,13 @@ function hkSheetUrl_() { return 'https://docs.google.com/spreadsheets/d/' + HK_M
 // ----- 請求書・領収書の共通デザイン（赤の二重枠・中央揃えのフォーマル） -----
 function hkFrame_(title, bodyHtml) {
   const c = HK_INVOICE.COLOR;
-  return '<html><body style="margin:0;padding:24px;font-family:sans-serif;color:#222;">' +
+  return '<html><body style="margin:0;padding:24px;font-family:sans-serif;color:' + HK_INVOICE.INK + ';">' +
     '<table style="width:100%;border:3px solid ' + c + ';border-collapse:collapse;"><tr><td style="padding:5px;">' +
-    '<table style="width:100%;border:1px solid ' + c + ';border-collapse:collapse;"><tr><td style="padding:26px 30px;">' +
-    '<div style="text-align:center;font-size:32px;font-weight:bold;letter-spacing:14px;color:' + c + ';">' + title + '</div>' +
-    '<div style="text-align:center;font-size:11px;color:#666;margin-top:4px;letter-spacing:2px;">' + hkEsc_(HK_INVOICE.ISSUER_NAME) + '</div>' +
-    '<div style="border-top:2px solid ' + c + ';margin-top:14px;"></div>' +
-    bodyHtml +
+    '<table style="width:100%;border:1px solid ' + c + ';border-collapse:collapse;"><tr><td style="padding:0 0 26px 0;">' +
+    '<div style="background:' + c + ';text-align:center;padding:20px 10px 16px 10px;">' +
+    '<div style="font-size:32px;font-weight:bold;letter-spacing:14px;color:' + HK_INVOICE.INK + ';">' + title + '</div>' +
+    '<div style="font-size:11px;color:' + HK_INVOICE.INK + ';margin-top:4px;letter-spacing:2px;">' + hkEsc_(HK_INVOICE.ISSUER_NAME) + '</div></div>' +
+    '<div style="padding:0 30px;">' + bodyHtml + '</div>' +
     '</td></tr></table></td></tr></table></body></html>';
 }
 
@@ -103,10 +114,10 @@ function hkInvoiceHtml_(o) {
     '<td style="vertical-align:top;text-align:right;line-height:1.8;">請求書番号：' + o.invoiceNo + '<br>発行日：' + hkFmt_(o.issued) + '<br>お支払期限：' + hkFmt_(o.due) + '</td></tr></table>' +
     '<div style="margin-top:20px;font-size:13px;text-align:center;">下記の通り、ご請求申し上げます。</div>' +
     '<table style="width:100%;margin-top:10px;border-collapse:collapse;"><tr>' +
-    '<td style="background:' + c + ';color:#fff;padding:14px 18px;font-size:13px;">ご請求金額</td>' +
-    '<td style="background:' + c + ';color:#fff;padding:14px 18px;font-size:28px;font-weight:bold;text-align:right;">' + hkYen_(o.amount) + '<span style="font-size:13px;">（' + HK_MANAGE.TAX_LABEL + '）</span></td></tr></table>' +
+    '<td style="background:' + c + ';color:' + HK_INVOICE.INK + ';padding:14px 18px;font-size:13px;">ご請求金額</td>' +
+    '<td style="background:' + c + ';color:' + HK_INVOICE.INK + ';padding:14px 18px;font-size:28px;font-weight:bold;text-align:right;">' + hkYen_(o.amount) + '<span style="font-size:13px;">（' + HK_MANAGE.TAX_LABEL + '）</span></td></tr></table>' +
     '<table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;">' +
-    '<tr style="background:#f6f6f6;"><td style="border:1px solid #bbb;padding:8px;">内容</td><td style="border:1px solid #bbb;padding:8px;text-align:right;width:130px;">金額（' + HK_MANAGE.TAX_LABEL + '）</td></tr>' +
+    '<tr style="background:' + HK_INVOICE.SOFT + ';"><td style="border:1px solid #bbb;padding:8px;">内容</td><td style="border:1px solid #bbb;padding:8px;text-align:right;width:130px;">金額（' + HK_MANAGE.TAX_LABEL + '）</td></tr>' +
     '<tr><td style="border:1px solid #bbb;padding:10px;line-height:1.8;">' + hkEsc_(HK_INVOICE.DESCRIPTION) + '<br>プラン：' + hkEsc_(o.planLabel) +
     '<br>契約期間：' + hkFmt_(o.issued) + '〜' + hkFmt_(o.end) + '（月割り：' + hkYen_(o.monthly) + ' × ' + o.months + 'ヶ月）' +
     '<br>次回更新：' + hkFmt_(o.nextStart) + '（年額 ' + hkYen_(o.annual) + '）</td>' +
@@ -124,12 +135,12 @@ function hkReceiptHtml_(o) {
     '<td style="vertical-align:bottom;width:56%;"><div style="font-size:19px;font-weight:bold;border-bottom:1px solid #999;padding-bottom:4px;">' + hkEsc_(o.billTo) + ' 様</div></td>' +
     '<td style="vertical-align:top;text-align:right;line-height:1.8;">領収書番号：' + o.receiptNo + '<br>領収日：' + hkFmt_(o.issued) + '</td></tr></table>' +
     '<table style="width:100%;margin-top:24px;border-collapse:collapse;"><tr>' +
-    '<td style="background:' + c + ';color:#fff;padding:16px 18px;font-size:13px;">領収金額</td>' +
-    '<td style="background:' + c + ';color:#fff;padding:16px 18px;font-size:30px;font-weight:bold;text-align:right;">' + hkYen_(o.amount) + '<span style="font-size:13px;">（' + HK_MANAGE.TAX_LABEL + '）</span></td></tr></table>' +
+    '<td style="background:' + c + ';color:' + HK_INVOICE.INK + ';padding:16px 18px;font-size:13px;">領収金額</td>' +
+    '<td style="background:' + c + ';color:' + HK_INVOICE.INK + ';padding:16px 18px;font-size:30px;font-weight:bold;text-align:right;">' + hkYen_(o.amount) + '<span style="font-size:13px;">（' + HK_MANAGE.TAX_LABEL + '）</span></td></tr></table>' +
     '<table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;">' +
-    '<tr><td style="border:1px solid #bbb;background:#f6f6f6;padding:10px;width:110px;">但し書き</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.note) + '</td></tr>' +
-    '<tr><td style="border:1px solid #bbb;background:#f6f6f6;padding:10px;">お支払方法</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.payLabel) + '</td></tr>' +
-    '<tr><td style="border:1px solid #bbb;background:#f6f6f6;padding:10px;">プラン</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.planLabel) + '</td></tr></table>' +
+    '<tr><td style="border:1px solid #bbb;background:' + HK_INVOICE.SOFT + ';padding:10px;width:110px;">但し書き</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.note) + '</td></tr>' +
+    '<tr><td style="border:1px solid #bbb;background:' + HK_INVOICE.SOFT + ';padding:10px;">お支払方法</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.payLabel) + '</td></tr>' +
+    '<tr><td style="border:1px solid #bbb;background:' + HK_INVOICE.SOFT + ';padding:10px;">プラン</td><td style="border:1px solid #bbb;padding:10px;">' + hkEsc_(o.planLabel) + '</td></tr></table>' +
     '<div style="margin-top:20px;font-size:13px;text-align:center;">上記の金額を、たしかに領収いたしました。</div>' +
     '<div style="margin-top:6px;font-size:11px;color:#666;text-align:center;">' + hkEsc_(HK_INVOICE.STAMP_NOTE) + '</div>' +
     hkIssuerHtml_();
@@ -235,7 +246,7 @@ function hkPartnerPost_(e) {
         subject: '【新規申込・カード】HAPPY KIDS PROJECT パートナー - ' + companyDisplay,
         body: '・プラン：' + planLabel + '\n・支払方法：カード（Stripeで決済を確認してください）\n・会社名：' + companyDisplay +
           '\n・カタカナ読み：' + kana + '\n・ご担当者様：' + person + '\n・ご住所：' + address + '\n・メール：' + email + '\n・電話：' + tel +
-          '\n\n決済を確認したら、管理シートの「状態」を「入金済」にしてください（領収書が自動で送られます）。\n' + hkSheetUrl_()
+          '\n\n決済を確認したら、入金確認アプリで「入金済にする」を押してください（領収書が自動で送られます）。\n' + HK_ADMIN.APP_URL + '\n（管理シートの「状態」を「入金済」にしても同じです）\n' + hkSheetUrl_()
       });
       return hkJson_({ result: 'success', payMethod: 'card' });
     }
@@ -323,7 +334,7 @@ function hkPartnerPost_(e) {
       subject: '【請求書 ' + (sentText.indexOf('送付済') === 0 ? '送信済み' : '要確認') + '】HAPPY KIDS PROJECT パートナー - ' + companyDisplay + '（' + hkYen_(pr.amount) + '）',
       body: ownerReport + '\n\n・プラン：' + plan + '\n・今回の請求額：' + hkYen_(pr.amount) + '（月割り' + pr.months + 'ヶ月）\n・お支払期限：' + hkFmt_(due) +
         '\n・会社名：' + companyDisplay + '\n・カタカナ読み：' + kana + '\n・ご担当者様：' + person + '\n・ご住所：' + address +
-        '\n・メール：' + email + '\n・電話：' + tel + '\n\n入金を確認したら、管理シートの「状態」を「入金済」にしてください（領収書が自動で送られます）。\n' + hkSheetUrl_()
+        '\n・メール：' + email + '\n・電話：' + tel + '\n\n入金を確認したら、入金確認アプリで「入金済にする」を押してください（領収書が自動で送られます）。\n' + HK_ADMIN.APP_URL + '\n（管理シートの「状態」を「入金済」にしても同じです）\n' + hkSheetUrl_()
     };
     if (pdf) reportMail.attachments = [pdf];
     MailApp.sendEmail(reportMail);
@@ -424,3 +435,103 @@ function hkIssueReceiptForRow_(sh, r) {
   }
 }
 
+// ============ 入金確認アプリ（GitHubのウェブアプリ）から呼ばれる処理 ============
+function hkAdminAuth_(pin) {
+  if (!/^\d{6,}$/.test(String(HK_ADMIN.PIN))) return '暗証番号が未設定です（GASの「管理画面の暗証番号」を設定してください）';
+  const cache = CacheService.getScriptCache();
+  const fails = Number(cache.get('hk_admin_fail') || 0);
+  if (fails >= HK_ADMIN.MAX_FAIL) return '入力ミスが続いたため、' + HK_ADMIN.LOCK_MIN + '分間ロックしています';
+  if (String(pin || '') !== String(HK_ADMIN.PIN)) {
+    cache.put('hk_admin_fail', String(fails + 1), HK_ADMIN.LOCK_MIN * 60);
+    return '暗証番号が違います';
+  }
+  cache.remove('hk_admin_fail');
+  return '';
+}
+
+function hkAdminRow_(sh, r) {
+  const v = sh.getRange(r, 1, 1, 19).getValues()[0];
+  const d = function (x) { return (x instanceof Date) ? hkFmtSlash_(x) : String(x || ''); };
+  const rank = String(v[HK_COL.RANK - 1]).trim();
+  const status = String(v[HK_COL.STATUS - 1]).trim();
+  const kind = status.indexOf('待ち') >= 0 ? 'pending' : ((status === HK_PAID || status === HK_ACTIVE) ? 'paid' : 'other');
+  const amount = Number(v[HK_COL.AMOUNT - 1]);
+  return {
+    row: r,
+    name: String(v[HK_COL.NAME - 1]).trim(),
+    plan: rank === 'SPECIAL' ? 'Gold' : (rank === 'PARTNER' ? 'Silver' : rank),
+    course: String(v[HK_COL.COURSE - 1]).trim(),
+    pay: String(v[HK_COL.PAY - 1]).indexOf('Stripe') >= 0 ? 'カード' : String(v[HK_COL.PAY - 1]).trim(),
+    amount: amount > 0 ? amount : null,
+    status: status,
+    kind: kind,
+    start: d(v[HK_COL.START - 1]),
+    email: String(v[HK_COL.EMAIL - 1]).trim(),
+    invSent: String(v[HK_COL.INVSENT - 1]).trim(),
+    rcSent: String(v[HK_COL.RCSENT - 1]).trim()
+  };
+}
+
+function hkAdminPost_(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const msg = hkAdminAuth_(data.pin);
+    if (msg) return hkJson_({ result: 'error', message: msg });
+    const sh = SpreadsheetApp.openById(HK_MANAGE.SHEET_ID).getSheetByName(HK_MANAGE.SHEET_NAME);
+    if (!sh) return hkJson_({ result: 'error', message: '管理シートが見つかりません' });
+    hkEnsureHeaders_(sh);
+
+    if (data.action === 'list') {
+      const rows = [];
+      const last = sh.getLastRow();
+      for (let r = 2; r <= last; r++) {
+        const o = hkAdminRow_(sh, r);
+        if (o.name) rows.push(o);
+      }
+      return hkJson_({ result: 'success', rows: rows, now: hkStamp_(new Date()) });
+    }
+
+    if (data.action === 'markPaid' || data.action === 'markUnpaid') {
+      const r = Number(data.row);
+      if (!(r >= 2) || r > sh.getLastRow()) return hkJson_({ result: 'error', message: '行が見つかりません。画面を更新してください' });
+      const before = hkAdminRow_(sh, r);
+      if (before.name !== String(data.name || '').trim()) return hkJson_({ result: 'error', message: '行がずれています。画面を更新してください' });
+
+      if (data.action === 'markUnpaid') {
+        sh.getRange(r, HK_COL.STATUS).setValue(before.pay === 'カード' ? 'カード決済待ち' : '請求書送付済・入金待ち');
+        return hkJson_({ result: 'success', sent: false, message: '入金待ちに戻しました', row: hkAdminRow_(sh, r) });
+      }
+
+      sh.getRange(r, HK_COL.STATUS).setValue(HK_PAID);
+      hkIssueReceiptForRow_(sh, r);                       // 領収書の自動送信（送れたら状態は「契約中」になる）
+      let after = hkAdminRow_(sh, r);
+      if (after.rcSent.indexOf('送付済') === 0 && after.status === HK_PAID) {   // 以前に送付済みの行を再度入金済にした場合
+        sh.getRange(r, HK_COL.STATUS).setValue(HK_ACTIVE);
+        after = hkAdminRow_(sh, r);
+      }
+      let message, sent = false;
+      if (after.rcSent.indexOf('送付済') === 0) { sent = true; message = '入金済にして、領収書を ' + after.email + ' に送りました'; }
+      else if (after.rcSent.indexOf('要手動対応') === 0) { message = '入金済にしました（メールか金額が空のため、領収書は送っていません）'; }
+      else if (after.rcSent.indexOf('送信失敗') === 0) { message = '入金済にしましたが、領収書の送信に失敗しました'; }
+      else { message = '入金済にしました'; }
+      return hkJson_({ result: 'success', sent: sent, message: message, row: after });
+    }
+
+    return hkJson_({ result: 'error', message: 'unknown action' });
+  } catch (err) {
+    return hkJson_({ result: 'error', message: err.message });
+  }
+}
+
+// ===== 受付の振り分け：HAPPY KIDS単独の申込み(formType=happykids)／入金確認アプリ(formType=happykids_admin)／大会スポンサー申込み =====
+function doPost(e) {
+  let data = {};
+  try { data = JSON.parse(e.postData.contents); } catch (err) {}
+  if (data.formType === 'happykids') return hkPartnerPost_(e);          // HAPPY KIDS単独：請求書・領収書・月割り
+  if (data.formType === 'happykids_admin') return hkAdminPost_(e);      // 入金確認アプリ
+  return hkTournamentPost_(e);                                          // 大会スポンサー：Stripeカード決済済
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput('OK - Happy Kids partner endpoint is alive');
+}

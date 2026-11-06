@@ -9,12 +9,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="HAPPY KIDS">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#DD0B1B">
-<link rel="apple-touch-icon" href="happy_kids_logo.png">
-<link rel="icon" href="happy_kids_logo.png">
+<meta name="theme-color" content="#FCC30B">
+<link rel="apple-touch-icon" href="happykids_apple_touch_icon_180.png">
+<link rel="icon" href="happykids_apple_touch_icon_180.png">
 <title>パートナーお申し込み｜HAPPY KIDS PROJECT 鳥取</title>
 <style>
-  :root{ --red:#DD0B1B; --ink:#111; --gray:#6B6B70; --line:#E5E5E5; --bg:#fff; --soft:#FAFAFA; }
+  :root{ --y:#FCC30B; --ysoft:#FFF6D1; --ydeep:#8A6A00; --ink:#222; --gray:#6B6B70; --line:#E5E5E5; --bg:#fff; --soft:#FAFAFA; --err:#C62828; }
   *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
   html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
   body{ font-family:Helvetica,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.7; }
@@ -22,32 +22,32 @@
   .wrap{ width:100%; max-width:560px; margin:0 auto; }
   @media (min-width:900px){ .wrap{ max-width:720px; } body{ background:var(--soft); } .wrap{ background:#fff; box-shadow:0 0 40px rgba(0,0,0,.06); } }
 
-  .topbar{ background:var(--red); padding:14px 20px; display:flex; align-items:center; gap:12px; }
-  .topbar img{ height:34px; width:auto; background:#fff; border-radius:6px; padding:3px 6px; }
-  .topbar span{ color:#fff; font-size:12px; font-weight:700; letter-spacing:.06em; }
+  .topbar{ background:var(--y); padding:14px 20px; display:flex; align-items:center; gap:12px; }
+  .topbar img{ height:40px; width:40px; background:#fff; border-radius:10px; padding:3px; }
+  .topbar span{ color:var(--ink); font-size:12px; font-weight:700; letter-spacing:.06em; }
 
   .hero{ position:relative; }
   .hero img{ width:100%; height:240px; object-fit:cover; }
   @media (min-width:900px){ .hero img{ height:320px; } }
   .hero .cap{ padding:28px 20px 8px; }
   .hero h1{ font-size:34px; line-height:1.25; margin:0 0 12px; font-weight:800; letter-spacing:-.01em; }
-  .hero h1 em{ font-style:normal; color:var(--red); }
+  .hero h1 em{ font-style:normal; background:linear-gradient(transparent 58%, var(--y) 58%); padding:0 2px; }
   .hero p{ font-size:13px; color:var(--gray); margin:0; }
 
   section{ padding:30px 20px 6px; }
-  .sec-no{ font-size:11px; font-weight:700; color:var(--red); letter-spacing:.14em; }
+  .sec-no{ display:inline-block; font-size:11px; font-weight:700; color:var(--ink); background:var(--y); padding:2px 10px; border-radius:20px; letter-spacing:.14em; }
   h2{ font-size:22px; margin:2px 0 14px; font-weight:800; }
 
   .plans{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .opt{ border:2px solid var(--line); border-radius:6px; padding:16px 12px; text-align:center; cursor:pointer; background:#fff; position:relative; user-select:none; }
-  .opt.sel{ border-color:var(--red); background:#FFF5F5; }
+  .opt.sel{ border-color:var(--y); background:var(--ysoft); box-shadow:0 0 0 2px var(--y); }
   .opt .rank{ font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--gray); }
   .opt .price{ font-size:30px; font-weight:800; line-height:1.1; margin-top:6px; }
   .opt .price small{ font-size:13px; font-weight:700; }
   .opt .per{ font-size:11px; color:var(--gray); margin-top:2px; }
   .opt .chk{ position:absolute; top:8px; right:8px; width:18px; height:18px; border:2px solid var(--line); border-radius:3px; background:#fff; }
-  .opt.sel .chk{ background:var(--red); border-color:var(--red); }
-  .opt.sel .chk::after{ content:""; position:absolute; left:4px; top:0; width:4px; height:9px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+  .opt.sel .chk{ background:var(--y); border-color:var(--ink); }
+  .opt.sel .chk::after{ content:""; position:absolute; left:4px; top:0; width:4px; height:9px; border:solid var(--ink); border-width:0 2px 2px 0; transform:rotate(45deg); }
 
   .paygrid{ display:grid; grid-template-columns:1fr; gap:12px; }
   .pay{ text-align:left; padding:16px 16px 16px 44px; }
@@ -55,8 +55,8 @@
   .pay .t{ font-size:16px; font-weight:800; }
   .pay .d{ font-size:12px; color:var(--gray); margin-top:2px; }
 
-  .summary{ margin-top:16px; border:2px solid var(--red); border-radius:6px; padding:16px; background:#fff; }
-  .summary .lab{ font-size:11px; font-weight:700; color:var(--red); letter-spacing:.1em; }
+  .summary{ margin-top:16px; border:2px solid var(--y); border-radius:10px; padding:16px; background:var(--ysoft); }
+  .summary .lab{ font-size:11px; font-weight:700; color:var(--ydeep); letter-spacing:.1em; }
   .summary .amt{ font-size:36px; font-weight:800; line-height:1.15; }
   .summary .amt small{ font-size:14px; }
   .summary .det{ font-size:12.5px; color:#333; margin-top:6px; }
@@ -64,9 +64,9 @@
 
   .field{ margin-bottom:16px; }
   label.l{ display:block; font-size:13px; font-weight:700; margin-bottom:6px; }
-  label.l .req{ color:var(--red); font-size:11px; margin-left:6px; }
+  label.l .req{ color:var(--err); font-size:11px; margin-left:6px; }
   input[type=text],input[type=email],input[type=tel],textarea{ width:100%; font-size:16px; font-family:inherit; padding:13px 12px; border:1.5px solid #CFCFD2; border-radius:6px; background:#fff; color:var(--ink); -webkit-appearance:none; appearance:none; }
-  input:focus,textarea:focus{ outline:none; border-color:var(--red); }
+  input:focus,textarea:focus{ outline:none; border-color:var(--y); box-shadow:0 0 0 3px var(--ysoft); }
   .hint{ font-size:11.5px; color:var(--gray); margin-top:4px; }
 
   .terms{ border:1.5px solid var(--line); border-radius:6px; padding:14px; max-height:260px; overflow-y:auto; font-size:12.5px; background:var(--soft); -webkit-overflow-scrolling:touch; }
@@ -74,14 +74,14 @@
   .terms h3:first-child{ margin-top:0; }
   .terms ul{ margin:0; padding-left:18px; }
   .agree{ display:flex; gap:10px; align-items:flex-start; margin-top:14px; font-size:13.5px; font-weight:700; cursor:pointer; }
-  .agree input{ width:22px; height:22px; margin-top:2px; accent-color:var(--red); flex:none; }
+  .agree input{ width:22px; height:22px; margin-top:2px; accent-color:var(--ink); flex:none; }
 
-  .submit{ width:100%; margin-top:20px; background:var(--red); color:#fff; border:none; border-radius:6px; font-size:18px; font-weight:800; padding:18px; font-family:inherit; }
-  .submit:disabled{ background:#BBB; }
-  .err{ color:var(--red); font-size:13px; font-weight:700; margin-top:10px; display:none; }
+  .submit{ width:100%; margin-top:20px; background:var(--y); color:var(--ink); border:none; border-radius:10px; box-shadow:0 4px 0 #D9A400; font-size:18px; font-weight:800; padding:18px; font-family:inherit; }
+  .submit:disabled{ background:#DDD; color:#888; box-shadow:none; }
+  .err{ color:var(--err); font-size:13px; font-weight:700; margin-top:10px; display:none; }
 
   .done{ display:none; padding:40px 20px; text-align:center; }
-  .done .mark{ font-size:44px; color:var(--red); font-weight:800; }
+  .done .mark{ width:72px; height:72px; line-height:72px; margin:0 auto; border-radius:50%; background:var(--y); font-size:40px; color:var(--ink); font-weight:800; }
   .done h2{ margin-top:6px; }
   .done .box{ text-align:left; background:var(--soft); border-radius:6px; padding:16px; font-size:13.5px; margin:18px 0; }
   .line-btn{ display:block; background:#06C755; color:#fff; font-weight:800; font-size:16px; text-decoration:none; border-radius:6px; padding:16px; }
@@ -92,7 +92,7 @@
 <body>
 <div class="wrap">
 
-  <div class="topbar"><img src="happy_kids_logo.png" alt="HAPPY KIDS PROJECT"><span>HAPPY KIDS PROJECT 鳥取</span></div>
+  <div class="topbar"><img src="happykids_logo_trimmed_600.png" alt="HAPPY KIDS PROJECT"><span>HAPPY KIDS PROJECT 鳥取</span></div>
 
   <div id="formArea">
     <div class="hero">

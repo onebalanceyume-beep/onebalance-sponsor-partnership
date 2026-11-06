@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="入金管理">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FCC30B">
+<meta name="robots" content="noindex,nofollow">
+<link rel="apple-touch-icon" href="happykids_apple_touch_icon_180.png">
+<link rel="icon" href="happykids_apple_touch_icon_180.png">
+<title>HAPPY KIDS 入金管理</title>
+<style>
+  :root{ --y:#FCC30B; --ydeep:#D9A400; --ysoft:#FFF6D1; --ink:#222; --gray:#6B6B70; --line:#F0E2A8; --ok:#2E9E5B; --oksoft:#E5F6EC; --err:#C62828; --bg:#FFFDF4; }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
+  body{ font-family:Helvetica,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; }
+  button{ font-family:inherit; cursor:pointer; }
+  .wrap{ width:100%; max-width:560px; margin:0 auto; }
+  @media (min-width:900px){ .wrap{ max-width:760px; } }
+
+  /* ヘッダー */
+  .top{ position:sticky; top:0; z-index:20; background:var(--y); padding:calc(10px + env(safe-area-inset-top)) 16px 10px; box-shadow:0 3px 0 var(--ydeep); }
+  .top .in{ max-width:760px; margin:0 auto; display:flex; align-items:center; gap:12px; }
+  .top img{ width:44px; height:44px; background:#fff; border-radius:12px; padding:3px; flex:none; }
+  .top h1{ margin:0; font-size:22px; line-height:1.15; font-weight:800; letter-spacing:.02em; }
+  .top small{ display:block; font-size:11px; font-weight:700; letter-spacing:.08em; }
+  .top .sp{ flex:1; }
+  .icon-btn{ width:44px; height:44px; border-radius:50%; border:none; background:#fff; font-size:22px; font-weight:800; color:var(--ink); box-shadow:0 3px 0 var(--ydeep); }
+  .icon-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--ydeep); }
+  .icon-btn.spin{ animation:spin .8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .demo{ background:#222; color:var(--y); font-size:12px; font-weight:700; text-align:center; padding:6px; }
+
+  /* ログイン */
+  #login{ padding:40px 20px; }
+  .login-card{ background:#fff; border:3px solid var(--y); border-radius:20px; padding:28px 22px; text-align:center; box-shadow:0 6px 0 var(--ydeep); }
+  .login-card img{ width:96px; height:96px; margin:0 auto 6px; }
+  .login-card h2{ margin:0 0 4px; font-size:24px; font-weight:800; }
+  .login-card p{ margin:0 0 18px; font-size:13px; color:var(--gray); }
+  .login-card input[type=password],.login-card input[type=tel]{ width:100%; font-size:20px; letter-spacing:.3em; text-align:center; padding:14px; border:2px solid #CFCFD2; border-radius:12px; font-family:inherit; -webkit-appearance:none; appearance:none; }
+  .login-card input:focus{ outline:none; border-color:var(--y); box-shadow:0 0 0 4px var(--ysoft); }
+  .remember{ display:flex; gap:8px; align-items:center; justify-content:center; margin:14px 0 4px; font-size:13px; }
+  .remember input{ width:20px; height:20px; accent-color:var(--ink); }
+  .btn{ display:block; width:100%; border:none; border-radius:14px; font-size:17px; font-weight:800; padding:15px; background:var(--y); color:var(--ink); box-shadow:0 4px 0 var(--ydeep); margin-top:14px; }
+  .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 var(--ydeep); }
+  .btn:disabled{ background:#E5E5E5; color:#999; box-shadow:none; }
+  .btn.ghost{ background:#fff; border:2px solid var(--ink); box-shadow:none; color:var(--ink); padding:11px; font-size:14px; }
+  .loginerr{ color:var(--err); font-size:13px; font-weight:700; min-height:20px; margin-top:10px; }
+
+  /* 集計 */
+  #main{ padding:16px 16px 100px; display:none; }
+  .stats{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .stat{ background:#fff; border:2px solid var(--line); border-radius:16px; padding:12px 14px; }
+  .stat.hot{ background:var(--ysoft); border-color:var(--y); }
+  .stat .k{ font-size:11px; font-weight:700; color:var(--gray); letter-spacing:.06em; }
+  .stat .v{ font-size:32px; font-weight:800; line-height:1.15; }
+  .stat .v small{ font-size:13px; font-weight:700; margin-left:2px; }
+  .stat .s{ font-size:12px; color:var(--gray); margin-top:2px; }
+
+  /* タブ */
+  .tabs{ display:flex; gap:6px; margin:16px 0 12px; background:#fff; border:2px solid var(--line); border-radius:999px; padding:4px; }
+  .tab{ flex:1; border:none; background:transparent; font-size:13px; font-weight:800; padding:10px 4px; border-radius:999px; color:var(--gray); }
+  .tab.on{ background:var(--y); color:var(--ink); box-shadow:0 2px 0 var(--ydeep); }
+
+  /* カード */
+  .card{ position:relative; background:#fff; border:2px solid var(--line); border-left:10px solid var(--y); border-radius:16px; padding:14px 14px 14px 14px; margin-bottom:12px; }
+  .card.paid{ border-left-color:var(--ok); }
+  .card.other{ border-left-color:#BBB; }
+  .card .row1{ display:flex; gap:8px; align-items:flex-start; }
+  .card .name{ flex:1; font-size:18px; font-weight:800; line-height:1.3; word-break:break-word; }
+  .chip{ display:inline-block; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; background:var(--ysoft); border:1.5px solid var(--y); white-space:nowrap; }
+  .chip.paid{ background:var(--oksoft); border-color:var(--ok); color:#1E6B3C; }
+  .chip.other{ background:#F2F2F2; border-color:#CCC; color:#555; }
+  .chip.gold{ background:var(--y); transform:rotate(-2deg); }
+  .chip.silver{ background:#ECECEC; border-color:#BDBDBD; transform:rotate(-2deg); }
+  .chips{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; align-items:center; }
+  .amt{ font-size:30px; font-weight:800; line-height:1.1; margin-top:8px; }
+  .amt small{ font-size:13px; font-weight:700; margin-right:1px; }
+  .amt .tax{ font-size:11px; color:var(--gray); margin-left:4px; }
+  .meta{ font-size:12px; color:#444; margin-top:8px; line-height:1.7; }
+  .meta b{ color:var(--gray); font-weight:700; display:inline-block; min-width:4.6em; }
+  .acts{ display:flex; gap:8px; margin-top:12px; }
+  .acts .btn{ margin-top:0; font-size:16px; padding:14px 10px; }
+  .acts .btn.ghost{ flex:0 0 42%; }
+
+  .empty{ text-align:center; padding:40px 10px; color:var(--gray); }
+  .empty .big{ font-size:48px; }
+  .empty p{ font-weight:700; margin:6px 0 0; }
+
+  .foot{ text-align:center; font-size:11px; color:#999; margin-top:24px; }
+  .foot a{ color:#555; }
+
+  /* 確認ダイアログ */
+  .modal{ position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.45); display:none; align-items:flex-end; justify-content:center; padding:16px; }
+  .modal.on{ display:flex; }
+  .sheet{ width:100%; max-width:480px; background:#fff; border:3px solid var(--y); border-radius:22px; padding:22px 20px 18px; box-shadow:0 8px 0 var(--ydeep); animation:up .18s ease-out; }
+  @keyframes up{ from{ transform:translateY(30px); opacity:0; } to{ transform:none; opacity:1; } }
+  .sheet h3{ margin:0 0 4px; font-size:20px; font-weight:800; }
+  .sheet .who{ font-size:15px; font-weight:800; margin-top:6px; word-break:break-word; }
+  .sheet .big{ font-size:34px; font-weight:800; line-height:1.15; margin-top:2px; }
+  .sheet .big small{ font-size:14px; }
+  .sheet .note{ font-size:12.5px; color:#444; background:var(--ysoft); border-radius:10px; padding:10px 12px; margin-top:12px; }
+  .sheet .two{ display:flex; gap:8px; margin-top:6px; }
+  .sheet .two .btn{ margin-top:12px; }
+  .sheet .two .btn.ghost{ flex:0 0 38%; }
+
+  /* トースト・紙吹雪 */
+  .toast{ position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translate(-50%,30px); opacity:0; z-index:60; width:calc(100% - 32px); max-width:480px; background:#222; color:#fff; border-radius:16px; padding:14px 16px; font-size:14px; font-weight:700; text-align:center; transition:.25s; pointer-events:none; }
+  .toast.on{ transform:translate(-50%,0); opacity:1; }
+  .toast.bad{ background:var(--err); }
+  .confetti{ position:fixed; inset:0; pointer-events:none; z-index:70; overflow:hidden; }
+  .confetti span{ position:absolute; top:-30px; font-size:26px; animation:fall 1.7s ease-in forwards; }
+  @keyframes fall{ to{ transform:translateY(110vh) rotate(540deg); opacity:.9; } }
+  .busy{ opacity:.55; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <img src="happykids_logo_trimmed_600.png" alt="HAPPY KIDS PROJECT">
+    <div><h1>入金管理 🍩</h1><small>HAPPY KIDS PROJECT 鳥取</small></div>
+    <div class="sp"></div>
+    <button class="icon-btn" id="reload" type="button" aria-label="更新" style="display:none">↻</button>
+  </div>
+</header>
+<div class="demo" id="demoBar" style="display:none">デモ表示です（本物のデータではありません）</div>
+
+<div class="wrap">
+
+  <!-- ログイン -->
+  <section id="login">
+    <div class="login-card">
+      <img src="happykids_logo_trimmed_600.png" alt="">
+      <h2>暗証番号を入力</h2>
+      <p>入金確認ができる画面です</p>
+      <input type="password" id="pin" inputmode="numeric" autocomplete="current-password" placeholder="••••••••">
+      <label class="remember"><input type="checkbox" id="remember" checked><span>この端末で覚える</span></label>
+      <button class="btn" id="loginBtn" type="button">ひらく</button>
+      <div class="loginerr" id="loginErr"></div>
+    </div>
+  </section>
+
+  <!-- 一覧 -->
+  <section id="main">
+    <div class="stats">
+      <div class="stat hot"><div class="k">入金待ち</div><div class="v"><span id="stWaitN">0</span><small>件</small></div><div class="s" id="stWaitY"></div></div>
+      <div class="stat"><div class="k">契約中・入金済</div><div class="v"><span id="stPaidN">0</span><small>件</small></div><div class="s" id="stNow"></div></div>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-tab="pending" type="button">入金待ち</button>
+      <button class="tab" data-tab="paid" type="button">契約中</button>
+      <button class="tab" data-tab="all" type="button">すべて</button>
+    </div>
+    <div id="list"></div>
+    <div class="foot"><a href="#" id="logout">ログアウト</a></div>
+  </section>
+</div>
+
+<!-- 確認 -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="mTitle"></h3>
+    <div class="who" id="mWho"></div>
+    <div class="big" id="mAmt"></div>
+    <div class="note" id="mNote"></div>
+    <div class="two">
+      <button class="btn ghost" id="mCancel" type="button">やめる</button>
+      <button class="btn" id="mOk" type="button">OK</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+(function(){
+  // ---- キャッシュ対策：古い保存データがあれば消す ----
+  try {
+    if ('caches' in window) caches.keys().then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); });
+    if (navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ r.unregister(); }); });
+  } catch(e){}
+
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbxoloA6vosntdBfDgHx2tHyMA7W91dcPcDu1XqcNkiAmgmKi8we7_8u9rRI8QiuFMn-7w/exec';
+  var DEMO = /[?&]demo=1/.test(location.search);
+  var state = { pin:'', rows:[], tab:'pending', busy:false };
+  var $ = function(id){ return document.getElementById(id); };
+
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function yen(n){ return Number(n).toLocaleString('en-US'); }
+  function store(k,v){ try{ if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){} }
+  function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  // ---- デモ用データ ----
+  var demoRows = [
+    {row:3,name:'株式会社サンプル商事',plan:'Gold',course:'39,600円',pay:'振込',amount:39600,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/06',email:'info@example.com',invSent:'送付済 2026/11/06 12:07',rcSent:''},
+    {row:4,name:'サンプル珈琲',plan:'Silver',course:'19,800円',pay:'カード',amount:19800,status:'カード決済待ち',kind:'pending',start:'2026/11/05',email:'cafe@example.com',invSent:'（カードのため請求書なし）',rcSent:''},
+    {row:5,name:'有限会社ためし工務店',plan:'Silver',course:'19,800円',pay:'振込',amount:13200,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/02',email:'koumuten@example.com',invSent:'送付済 2026/11/02 09:30',rcSent:''},
+    {row:6,name:'Toshio Sakamoto',plan:'Gold',course:'39,600円',pay:'カード',amount:39600,status:'契約中',kind:'paid',start:'2026/03/26',email:'',invSent:'',rcSent:''},
+    {row:7,name:'株式会社デモ建設',plan:'Silver',course:'19,800円',pay:'振込',amount:19800,status:'契約中',kind:'paid',start:'2026/10/01',email:'demo@example.com',invSent:'送付済 2026/10/01 10:00',rcSent:'送付済 2026/10/09 15:20（RC-20261009-007）'}
+  ];
+
+  // ---- 通信 ----
+  function api(body){
+    var payload = Object.assign({ formType:'happykids_admin', pin:state.pin }, body);
+    return fetch(GAS_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+      .then(function(r){ return r.json(); });
+  }
+  function demoApi(body){
+    return new Promise(function(resolve){
+      setTimeout(function(){
+        if (body.action === 'list') return resolve({ result:'success', rows:JSON.parse(JSON.stringify(demoRows)), now:'デモ' });
+        var r = demoRows.filter(function(x){ return x.row === body.row; })[0];
+        if (!r) return resolve({ result:'error', message:'行が見つかりません' });
+        if (body.action === 'markPaid') {
+          r.status = '契約中'; r.kind = 'paid'; r.rcSent = r.email ? '送付済 デモ' : '要手動対応';
+          return resolve({ result:'success', sent:!!r.email, message:'入金済にして、領収書を ' + r.email + ' に送りました（デモ）', row:JSON.parse(JSON.stringify(r)) });
+        }
+        r.status = r.pay === 'カード' ? 'カード決済待ち' : '請求書送付済・入金待ち'; r.kind = 'pending';
+        resolve({ result:'success', sent:false, message:'入金待ちに戻しました（デモ）', row:JSON.parse(JSON.stringify(r)) });
+      }, 350);
+    });
+  }
+  var call = function(b){ return DEMO ? demoApi(b) : api(b); };
+
+  // ---- 画面 ----
+  function show(view){
+    $('login').style.display = view === 'login' ? 'block' : 'none';
+    $('main').style.display = view === 'main' ? 'block' : 'none';
+    $('reload').style.display = view === 'main' ? 'block' : 'none';
+  }
+  var toastTimer = null;
+  function toast(msg, bad){
+    var t = $('toast'); t.textContent = msg; t.className = 'toast on' + (bad ? ' bad' : '');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.className = 'toast'; }, 4200);
+  }
+  function confetti(){
+    var box = $('confetti'), items = ['🎉','🍩','⭐','🌱','☀️','🎊'];
+    box.innerHTML = '';
+    for (var i = 0; i < 26; i++) {
+      var s = document.createElement('span');
+      s.textContent = items[i % items.length];
+      s.style.left = (Math.random() * 100) + 'vw';
+      s.style.animationDelay = (Math.random() * 0.5) + 's';
+      s.style.fontSize = (20 + Math.random() * 20) + 'px';
+      box.appendChild(s);
+    }
+    setTimeout(function(){ box.innerHTML = ''; }, 2600);
+  }
+
+  function render(){
+    var rows = state.rows, pend = rows.filter(function(r){ return r.kind === 'pending'; }), paid = rows.filter(function(r){ return r.kind === 'paid'; });
+    $('stWaitN').textContent = pend.length;
+    $('stWaitY').textContent = '合計 ¥' + yen(pend.reduce(function(a,r){ return a + (r.amount || 0); }, 0));
+    $('stPaidN').textContent = paid.length;
+    $('stNow').textContent = state.now ? '更新 ' + state.now : '';
+    var tabs = document.querySelectorAll('#tabs .tab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('on', tabs[i].getAttribute('data-tab') === state.tab);
+
+    var show_ = state.tab === 'pending' ? pend : (state.tab === 'paid' ? paid : rows.slice());
+    if (state.tab === 'all') show_.sort(function(a,b){ return (a.kind === 'pending' ? 0 : 1) - (b.kind === 'pending' ? 0 : 1); });
+    if (!show_.length) {
+      $('list').innerHTML = state.tab === 'pending'
+        ? '<div class="empty"><div class="big">🎉</div><p>入金待ちはありません</p></div>'
+        : '<div class="empty"><div class="big">🍩</div><p>まだありません</p></div>';
+      return;
+    }
+    $('list').innerHTML = show_.map(function(r){
+      var cls = r.kind === 'pending' ? '' : (r.kind === 'paid' ? ' paid' : ' other');
+      var chipS = '<span class="chip ' + (r.kind === 'paid' ? 'paid' : (r.kind === 'other' ? 'other' : '')) + '">' + esc(r.status || '—') + '</span>';
+      var plan = r.plan ? '<span class="chip ' + (r.plan === 'Gold' ? 'gold' : 'silver') + '">' + esc(r.plan) + '</span>' : '';
+      var pay = r.pay ? '<span class="chip other">' + esc(r.pay) + '</span>' : '';
+      var amt = r.amount ? '<div class="amt"><small>¥</small>' + yen(r.amount) + '<span class="tax">税込</span></div>' : '<div class="amt" style="font-size:16px;color:#999">金額なし</div>';
+      var meta = '<div class="meta">' +
+        (r.start ? '<div><b>契約日</b>' + esc(r.start) + '</div>' : '') +
+        (r.email ? '<div><b>メール</b>' + esc(r.email) + '</div>' : '<div><b>メール</b><span style="color:var(--err)">なし（領収書は送れません）</span></div>') +
+        (r.invSent ? '<div><b>請求書</b>' + esc(r.invSent) + '</div>' : '') +
+        (r.rcSent ? '<div><b>領収書</b>' + esc(r.rcSent) + '</div>' : '') + '</div>';
+      var acts = r.kind === 'pending'
+        ? '<div class="acts"><button class="btn" data-act="paid" data-row="' + r.row + '" type="button">入金済にする</button></div>'
+        : '<div class="acts"><button class="btn ghost" data-act="unpaid" data-row="' + r.row + '" type="button">入金待ちに戻す</button></div>';
+      return '<div class="card' + cls + '" id="card' + r.row + '"><div class="row1"><div class="name">' + esc(r.name) + '</div>' + chipS + '</div>' +
+        '<div class="chips">' + plan + pay + '</div>' + amt + meta + acts + '</div>';
+    }).join('');
+  }
+
+  function find(row){ return state.rows.filter(function(r){ return r.row === row; })[0]; }
+
+  var pending = null;
+  function ask(act, row){
+    var r = find(row); if (!r) return;
+    pending = { act:act, row:row, name:r.name };
+    $('mWho').textContent = r.name;
+    $('mAmt').innerHTML = r.amount ? '<small>¥</small>' + yen(r.amount) + '<small>（税込）</small>' : '';
+    if (act === 'paid') {
+      $('mTitle').textContent = '入金済にしますか？';
+      $('mNote').textContent = r.email ? '領収書を ' + r.email + ' にメールで送ります（送ったあとは取り消せません）。' : 'メールアドレスがないため、領収書は送られません。状態だけ「入金済」になります。';
+      $('mOk').textContent = '入金済にする';
+    } else {
+      $('mTitle').textContent = '入金待ちに戻しますか？';
+      $('mNote').textContent = '状態だけ戻します。送った領収書は取り消されません。';
+      $('mOk').textContent = '戻す';
+    }
+    $('modal').className = 'modal on';
+  }
+  function closeModal(){ $('modal').className = 'modal'; }
+
+  function run(){
+    if (!pending || state.busy) return;
+    var p = pending; pending = null; closeModal();
+    state.busy = true;
+    var card = $('card' + p.row); if (card) card.classList.add('busy');
+    call({ action: p.act === 'paid' ? 'markPaid' : 'markUnpaid', row:p.row, name:p.name }).then(function(res){
+      state.busy = false;
+      if (res.result !== 'success') { toast(res.message || 'うまくいきませんでした', true); render(); return; }
+      var i = state.rows.map(function(r){ return r.row; }).indexOf(p.row);
+      if (i >= 0 && res.row) state.rows[i] = res.row;
+      toast(res.message);
+      if (p.act === 'paid') confetti();
+      render();
+    }).catch(function(){ state.busy = false; toast('通信に失敗しました。もう一度お試しください', true); render(); });
+  }
+
+  function loadList(spin){
+    var b = $('reload'); if (spin) b.classList.add('spin');
+    return call({ action:'list' }).then(function(res){
+      b.classList.remove('spin');
+      if (res.result !== 'success') { return Promise.reject(res.message || 'エラー'); }
+      state.rows = res.rows; state.now = res.now; render();
+    });
+  }
+
+  function login(pin, remember){
+    state.pin = pin; $('loginBtn').disabled = true; $('loginErr').textContent = '';
+    loadList(false).then(function(){
+      show('main');
+      if (!DEMO) store('hkAdminPin', remember ? pin : null);
+    }).catch(function(msg){
+      $('loginErr').textContent = typeof msg === 'string' ? msg : '通信に失敗しました。電波をご確認ください';
+      store('hkAdminPin', null); show('login');
+    }).then(function(){ $('loginBtn').disabled = false; });
+  }
+
+  // ---- イベント ----
+  $('loginBtn').addEventListener('click', function(){ var v = $('pin').value.trim(); if (!v) { $('loginErr').textContent = '暗証番号を入力してください'; return; } login(v, $('remember').checked); });
+  $('pin').addEventListener('keydown', function(e){ if (e.key === 'Enter') $('loginBtn').click(); });
+  $('reload').addEventListener('click', function(){ loadList(true).catch(function(m){ toast(typeof m === 'string' ? m : '通信に失敗しました', true); }); });
+  $('tabs').addEventListener('click', function(e){ var t = e.target.closest('.tab'); if (!t) return; state.tab = t.getAttribute('data-tab'); render(); });
+  $('list').addEventListener('click', function(e){ var b = e.target.closest('button[data-act]'); if (!b) return; ask(b.getAttribute('data-act'), Number(b.getAttribute('data-row'))); });
+  $('mCancel').addEventListener('click', function(){ pending = null; closeModal(); });
+  $('mOk').addEventListener('click', run);
+  $('modal').addEventListener('click', function(e){ if (e.target === $('modal')) { pending = null; closeModal(); } });
+  $('logout').addEventListener('click', function(e){ e.preventDefault(); store('hkAdminPin', null); state.pin = ''; state.rows = []; $('pin').value = ''; show('login'); });
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden && $('main').style.display === 'block' && !state.busy) loadList(false).catch(function(){}); });
+
+  // ---- 起動 ----
+  if (DEMO) { $('demoBar').style.display = 'block'; login('demo', false); }
+  else { var saved = load('hkAdminPin'); if (saved) { $('pin').value = saved; login(saved, true); } else show('login'); }
+})();
+</script>
+</body>
+</html>
