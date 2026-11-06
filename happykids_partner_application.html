@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="HAPPY KIDS">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#DD0B1B">
+<link rel="apple-touch-icon" href="happy_kids_logo.png">
+<link rel="icon" href="happy_kids_logo.png">
+<title>パートナーお申し込み｜HAPPY KIDS PROJECT 鳥取</title>
+<style>
+  :root{ --red:#DD0B1B; --ink:#111; --gray:#6B6B70; --line:#E5E5E5; --bg:#fff; --soft:#FAFAFA; }
+  *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
+  body{ font-family:Helvetica,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.7; }
+  img{ max-width:100%; display:block; }
+  .wrap{ width:100%; max-width:560px; margin:0 auto; }
+  @media (min-width:900px){ .wrap{ max-width:720px; } body{ background:var(--soft); } .wrap{ background:#fff; box-shadow:0 0 40px rgba(0,0,0,.06); } }
+
+  .topbar{ background:var(--red); padding:14px 20px; display:flex; align-items:center; gap:12px; }
+  .topbar img{ height:34px; width:auto; background:#fff; border-radius:6px; padding:3px 6px; }
+  .topbar span{ color:#fff; font-size:12px; font-weight:700; letter-spacing:.06em; }
+
+  .hero{ position:relative; }
+  .hero img{ width:100%; height:240px; object-fit:cover; }
+  @media (min-width:900px){ .hero img{ height:320px; } }
+  .hero .cap{ padding:28px 20px 8px; }
+  .hero h1{ font-size:34px; line-height:1.25; margin:0 0 12px; font-weight:800; letter-spacing:-.01em; }
+  .hero h1 em{ font-style:normal; color:var(--red); }
+  .hero p{ font-size:13px; color:var(--gray); margin:0; }
+
+  section{ padding:30px 20px 6px; }
+  .sec-no{ font-size:11px; font-weight:700; color:var(--red); letter-spacing:.14em; }
+  h2{ font-size:22px; margin:2px 0 14px; font-weight:800; }
+
+  .plans{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .opt{ border:2px solid var(--line); border-radius:6px; padding:16px 12px; text-align:center; cursor:pointer; background:#fff; position:relative; user-select:none; }
+  .opt.sel{ border-color:var(--red); background:#FFF5F5; }
+  .opt .rank{ font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--gray); }
+  .opt .price{ font-size:30px; font-weight:800; line-height:1.1; margin-top:6px; }
+  .opt .price small{ font-size:13px; font-weight:700; }
+  .opt .per{ font-size:11px; color:var(--gray); margin-top:2px; }
+  .opt .chk{ position:absolute; top:8px; right:8px; width:18px; height:18px; border:2px solid var(--line); border-radius:3px; background:#fff; }
+  .opt.sel .chk{ background:var(--red); border-color:var(--red); }
+  .opt.sel .chk::after{ content:""; position:absolute; left:4px; top:0; width:4px; height:9px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+
+  .paygrid{ display:grid; grid-template-columns:1fr; gap:12px; }
+  .pay{ text-align:left; padding:16px 16px 16px 44px; }
+  .pay .chk{ top:18px; left:14px; right:auto; }
+  .pay .t{ font-size:16px; font-weight:800; }
+  .pay .d{ font-size:12px; color:var(--gray); margin-top:2px; }
+
+  .summary{ margin-top:16px; border:2px solid var(--red); border-radius:6px; padding:16px; background:#fff; }
+  .summary .lab{ font-size:11px; font-weight:700; color:var(--red); letter-spacing:.1em; }
+  .summary .amt{ font-size:36px; font-weight:800; line-height:1.15; }
+  .summary .amt small{ font-size:14px; }
+  .summary .det{ font-size:12.5px; color:#333; margin-top:6px; }
+  .summary .warn{ font-size:11.5px; color:var(--gray); margin-top:8px; }
+
+  .field{ margin-bottom:16px; }
+  label.l{ display:block; font-size:13px; font-weight:700; margin-bottom:6px; }
+  label.l .req{ color:var(--red); font-size:11px; margin-left:6px; }
+  input[type=text],input[type=email],input[type=tel],textarea{ width:100%; font-size:16px; font-family:inherit; padding:13px 12px; border:1.5px solid #CFCFD2; border-radius:6px; background:#fff; color:var(--ink); -webkit-appearance:none; appearance:none; }
+  input:focus,textarea:focus{ outline:none; border-color:var(--red); }
+  .hint{ font-size:11.5px; color:var(--gray); margin-top:4px; }
+
+  .terms{ border:1.5px solid var(--line); border-radius:6px; padding:14px; max-height:260px; overflow-y:auto; font-size:12.5px; background:var(--soft); -webkit-overflow-scrolling:touch; }
+  .terms h3{ font-size:13px; margin:12px 0 4px; }
+  .terms h3:first-child{ margin-top:0; }
+  .terms ul{ margin:0; padding-left:18px; }
+  .agree{ display:flex; gap:10px; align-items:flex-start; margin-top:14px; font-size:13.5px; font-weight:700; cursor:pointer; }
+  .agree input{ width:22px; height:22px; margin-top:2px; accent-color:var(--red); flex:none; }
+
+  .submit{ width:100%; margin-top:20px; background:var(--red); color:#fff; border:none; border-radius:6px; font-size:18px; font-weight:800; padding:18px; font-family:inherit; }
+  .submit:disabled{ background:#BBB; }
+  .err{ color:var(--red); font-size:13px; font-weight:700; margin-top:10px; display:none; }
+
+  .done{ display:none; padding:40px 20px; text-align:center; }
+  .done .mark{ font-size:44px; color:var(--red); font-weight:800; }
+  .done h2{ margin-top:6px; }
+  .done .box{ text-align:left; background:var(--soft); border-radius:6px; padding:16px; font-size:13.5px; margin:18px 0; }
+  .line-btn{ display:block; background:#06C755; color:#fff; font-weight:800; font-size:16px; text-decoration:none; border-radius:6px; padding:16px; }
+
+  footer{ text-align:center; padding:26px 20px 40px; font-size:11px; color:#999; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar"><img src="happy_kids_logo.png" alt="HAPPY KIDS PROJECT"><span>HAPPY KIDS PROJECT 鳥取</span></div>
+
+  <div id="formArea">
+    <div class="hero">
+      <img src="kids_hero.jpg" alt="">
+      <div class="cap">
+        <h1>子どもたちの<br><em>自立</em>を、<br>一緒に支える。</h1>
+        <p>児童養護施設の先生方を支える研修を通じて、18歳で施設を出た子どもたちが「自分で食べていける」未来をつくる活動です。</p>
+      </div>
+    </div>
+
+    <section>
+      <div class="sec-no">STEP 1</div>
+      <h2>プランを選ぶ</h2>
+      <div class="plans" id="plans">
+        <div class="opt sel" data-plan="Silver"><span class="chk"></span><div class="rank">SILVER</div><div class="price"><small>¥</small>19,800</div><div class="per">年額</div></div>
+        <div class="opt" data-plan="Gold"><span class="chk"></span><div class="rank">GOLD</div><div class="price"><small>¥</small>39,600</div><div class="per">年額</div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-no">STEP 2</div>
+      <h2>お支払い方法を選ぶ</h2>
+      <div class="paygrid" id="pays">
+        <div class="opt pay sel" data-pay="card"><span class="chk"></span><div class="t">クレジットカード</div><div class="d">決済ページへ移動／お申し込み日から1年更新（日割りなし）</div></div>
+        <div class="opt pay" data-pay="bank"><span class="chk"></span><div class="t">口座振込（請求書）</div><div class="d">請求書をお送りします／今年度の10月末までを月割りで請求</div></div>
+      </div>
+      <div class="summary" id="summary"></div>
+    </section>
+
+    <section>
+      <div class="sec-no">STEP 3</div>
+      <h2>お申込者情報</h2>
+      <div class="field"><label class="l" for="company">会社名・団体名<span class="req">個人の方は空欄でOK</span></label><input type="text" id="company" autocomplete="organization"></div>
+      <div class="field"><label class="l" for="kana">会社名のカタカナ読み</label><input type="text" id="kana"></div>
+      <div class="field"><label class="l" for="person">ご担当者様のお名前<span class="req">必須</span></label><input type="text" id="person" autocomplete="name"></div>
+      <div class="field"><label class="l" for="address">ご住所<span class="req">必須</span></label><input type="text" id="address" autocomplete="street-address"></div>
+      <div class="field"><label class="l" for="email">メールアドレス<span class="req">必須</span></label><input type="email" id="email" autocomplete="email" inputmode="email"></div>
+      <div class="field"><label class="l" for="tel">電話番号<span class="req">必須</span></label><input type="tel" id="tel" autocomplete="tel" inputmode="tel"></div>
+    </section>
+
+    <section>
+      <div class="sec-no">STEP 4</div>
+      <h2>規約の確認</h2>
+      <div class="terms">
+        <h3>1. 契約期間と更新</h3>
+        <ul>
+          <li>契約年度は毎年11月1日から翌年10月31日までです。</li>
+          <li>【口座振込】お申し込み月から今年度の10月末までを月割り（年額÷12×残り月数）でご請求します。翌年度以降は、毎年11月に年額で更新となります。</li>
+          <li>【クレジットカード】お申し込み（お支払い）日から1年間です。日割り計算はなく、以降は同じ日に年額で自動更新されます。</li>
+        </ul>
+        <h3>2. お支払い</h3>
+        <ul>
+          <li>【口座振込】請求書の発行日から1ヶ月以内にお振込みください。振込手数料はお客様のご負担となります。</li>
+          <li>【クレジットカード】Stripeの決済ページで安全にお支払いいただきます。</li>
+        </ul>
+        <h3>3. 看板（会社名・ロゴ）の掲載について</h3>
+        <ul>
+          <li>看板への会社名・ロゴの掲載は、制作・設置のため、お申し込みから1ヶ月〜2ヶ月ほどお時間をいただく場合があります。</li>
+          <li>契約は途中でやめることができます。ただし、すでに設置した看板をすぐに外すことが難しい場合があります。</li>
+        </ul>
+        <h3>4. お金の使い道</h3>
+        <ul>
+          <li>お預かりした金額は、研修費、外部研修の旅費・受講料、子どもたちへの支援、チャレンジ活動に使わせていただきます。</li>
+        </ul>
+        <h3>5. 個人情報</h3>
+        <ul>
+          <li>お預かりした情報は、ご請求・ご連絡のためだけに使います。</li>
+        </ul>
+      </div>
+      <label class="agree"><input type="checkbox" id="agree"><span>上記の規約に同意します</span></label>
+      <div class="err" id="err"></div>
+      <button class="submit" id="submit" type="button">申し込む</button>
+    </section>
+  </div>
+
+  <div class="done" id="done">
+    <div class="mark">✓</div>
+    <h2>お申し込みありがとうございます</h2>
+    <div class="box" id="doneBox"></div>
+    <a class="line-btn" href="https://lin.ee/9v4jPNb" target="_blank" rel="noopener">LINEで友だち追加</a>
+  </div>
+
+  <footer>HAPPY KIDS PROJECT 鳥取<br>鳥取県米子市車尾6丁目8-59 ／ TEL 0859-49-5275</footer>
+</div>
+
+<script>
+(function(){
+  // ---- キャッシュ対策：古い保存データがあれば消す ----
+  try {
+    if ('caches' in window) caches.keys().then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); });
+    if (navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ r.unregister(); }); });
+  } catch(e){}
+
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbxoloA6vosntdBfDgHx2tHyMA7W91dcPcDu1XqcNkiAmgmKi8we7_8u9rRI8QiuFMn-7w/exec';
+  var ANNUAL = { Silver: 19800, Gold: 39600 };
+  var STRIPE = {
+    Silver: 'https://buy.stripe.com/8x228sbe91go5vCd5zffy0f',
+    Gold: 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p'
+  };
+  var TAX = '税込';
+  var plan = 'Silver', pay = 'card';
+
+  function yen(n){ return '¥' + Number(n).toLocaleString('en-US'); }
+  function monthsLeft(d){ var m = d.getMonth() + 1; return m >= 11 ? 12 - (m - 11) : 11 - m; }
+  function endDate(d){ var y = (d.getMonth() + 1) >= 11 ? d.getFullYear() + 1 : d.getFullYear(); return new Date(y, 9, 31); }
+  function fmt(d){ return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+
+  function renderSummary(){
+    var a = ANNUAL[plan], now = new Date(), box = document.getElementById('summary');
+    if (pay === 'card') {
+      box.innerHTML = '<div class="lab">お支払い金額</div><div class="amt">' + yen(a) + '<small> / 年（' + TAX + '）</small></div>' +
+        '<div class="det">お支払い日から1年間。以降は毎年同じ日に自動更新されます。</div>' +
+        '<div class="warn">申込み後、安全な決済ページ（Stripe）に移動します。</div>';
+    } else {
+      var n = monthsLeft(now), monthly = Math.floor(a / 12), end = endDate(now);
+      var due = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      box.innerHTML = '<div class="lab">今回のご請求額</div><div class="amt">' + yen(monthly * n) + '<small>（' + TAX + '）</small></div>' +
+        '<div class="det">月' + yen(monthly) + ' × ' + n + 'ヶ月分（〜' + fmt(end) + '）<br>お支払期限：請求書の発行日から1ヶ月以内（目安 ' + fmt(due) + '）<br>次回更新：' + fmt(new Date(end.getFullYear(), 10, 1)) + '（年額 ' + yen(a) + '）</div>' +
+        '<div class="warn">請求書は、ご入力のメールアドレス宛てにお送りします。</div>';
+    }
+  }
+
+  function bind(containerId, attr, cb){
+    var els = document.querySelectorAll('#' + containerId + ' .opt');
+    for (var i = 0; i < els.length; i++) {
+      els[i].addEventListener('click', function(){
+        for (var j = 0; j < els.length; j++) els[j].classList.remove('sel');
+        this.classList.add('sel');
+        cb(this.getAttribute(attr));
+        renderSummary();
+      });
+    }
+  }
+  bind('plans', 'data-plan', function(v){ plan = v; });
+  bind('pays', 'data-pay', function(v){ pay = v; });
+  renderSummary();
+
+  var err = document.getElementById('err'), btn = document.getElementById('submit');
+  function showErr(t){ err.textContent = t; err.style.display = 'block'; }
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  btn.addEventListener('click', function(){
+    err.style.display = 'none';
+    var person = val('person'), address = val('address'), email = val('email'), tel = val('tel');
+    if (!person || !address || !email || !tel) { showErr('必須項目（お名前・ご住所・メール・電話番号）をご入力ください。'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { showErr('メールアドレスの形式をご確認ください。'); return; }
+    if (!document.getElementById('agree').checked) { showErr('規約への同意にチェックを入れてください。'); return; }
+
+    btn.disabled = true; btn.textContent = '送信中...';
+    var payload = {
+      formType: 'happykids',
+      planKey: plan,
+      payMethod: pay,
+      companyName: val('company'),
+      kana: val('kana'),
+      name: person, address: address, email: email, tel: tel
+    };
+
+    var finish = function(){
+      if (pay === 'card') {
+        window.location.href = STRIPE[plan];
+        return;
+      }
+      var a = ANNUAL[plan], now = new Date(), n = monthsLeft(now), monthly = Math.floor(a / 12), end = endDate(now);
+      document.getElementById('doneBox').innerHTML =
+        '・プラン：' + plan + '（' + yen(a) + '／年）<br>・お支払い：口座振込（請求書）<br>・今回のご請求額：<b>' + yen(monthly * n) + '</b>（' + TAX + '・月割り' + n + 'ヶ月）<br>・契約期間：' + fmt(now) + '〜' + fmt(end) +
+        '<br><br>請求書は、ご入力のメールアドレス宛てにお送りします。お支払いは請求書の発行日から1ヶ月以内にお願いします。';
+      document.getElementById('formArea').style.display = 'none';
+      document.getElementById('done').style.display = 'block';
+      window.scrollTo(0, 0);
+    };
+
+    fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+      .then(finish)
+      .catch(finish);
+  });
+})();
+</script>
+</body>
+</html>
