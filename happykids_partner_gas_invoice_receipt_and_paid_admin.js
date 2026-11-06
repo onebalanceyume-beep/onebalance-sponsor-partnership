@@ -13,15 +13,15 @@
 
 // ===== 請求書・メールの設定（変えたいときはここだけ） =====
 const HK_INVOICE = {
-  ISSUER_NAME: 'HAPPY KIDS PROJECT 鳥取',
+  ISSUER_NAME: 'HAPPY KIDS PROJECT 米子',
   ISSUER_ADDRESS: '鳥取県米子市車尾6丁目8-59',
   ISSUER_TEL: '0859-49-5275',
   BANK_INFO: '山陰合同銀行 ／ 店番080 ／ 普通預金 ／ 口座番号 3795597 ／ 口座名義 ワンバランスボクシングジム 長尾 儀弘',
   DESCRIPTION: 'ハッピーキッズパートナーシップ年間契約として',   // 請求書の内容・領収書の但し書き
   STAMP_NOTE: '電子発行のため、収入印紙は不要です。',
-  COLOR: '#FCC30B',          // HAPPY KIDSのロゴの太陽の黄色
-  SOFT: '#FFF6D1',           // うすい黄色（表の見出し）
-  INK: '#222222',            // 黄色の上に載せる文字色
+  COLOR: '#FFE08A',          // HAPPY KIDSのロゴの太陽の黄色
+  SOFT: '#FFF8E1',           // うすい黄色（表の見出し）
+  INK: '#4A3B22',            // 黄色の上に載せる文字色
   FOLDER_NAME: 'HAPPY KIDS 請求書',
   RECEIPT_FOLDER_NAME: 'HAPPY KIDS 領収書'
 };

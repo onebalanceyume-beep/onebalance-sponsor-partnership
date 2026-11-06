@@ -10,13 +10,13 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="入金管理">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#FCC30B">
+<meta name="theme-color" content="#FFE08A">
 <meta name="robots" content="noindex,nofollow">
 <link rel="apple-touch-icon" href="happykids_apple_touch_icon_180.png">
 <link rel="icon" href="happykids_apple_touch_icon_180.png">
 <title>HAPPY KIDS 入金管理</title>
 <style>
-  :root{ --y:#FCC30B; --ydeep:#D9A400; --ysoft:#FFF6D1; --ink:#222; --gray:#6B6B70; --line:#F0E2A8; --ok:#2E9E5B; --oksoft:#E5F6EC; --err:#C62828; --bg:#FFFDF4; }
+  :root{ --y:#FFE08A; --ydeep:#EBC45A; --ysoft:#FFF8E1; --ink:#4A3B22; --gray:#6B6B70; --line:#F0E2A8; --ok:#2E9E5B; --oksoft:#E5F6EC; --err:#C62828; --bg:#FFFDF4; }
   *,*::before,*::after{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
   html,body{ margin:0; padding:0; width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
   body{ font-family:Helvetica,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; }
@@ -36,7 +36,7 @@
   .icon-btn.spin{ animation:spin .8s linear infinite; }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
-  .demo{ background:#222; color:var(--y); font-size:12px; font-weight:700; text-align:center; padding:6px; }
+  .demo{ background:linear-gradient(90deg,#1FA2A8,#6FD05C); color:#fff; font-size:12px; font-weight:700; text-align:center; padding:6px; }
 
   /* ログイン */
   #login{ padding:40px 20px; }
@@ -70,7 +70,7 @@
   .tab.on{ background:var(--y); color:var(--ink); box-shadow:0 2px 0 var(--ydeep); }
 
   /* カード */
-  .card{ position:relative; background:#fff; border:2px solid var(--line); border-left:10px solid var(--y); border-radius:16px; padding:14px 14px 14px 14px; margin-bottom:12px; }
+  .card{ position:relative; background:#fff; box-shadow:0 2px 8px rgba(120,95,30,.08); border:2px solid var(--line); border-left:10px solid var(--y); border-radius:16px; padding:14px 14px 14px 14px; margin-bottom:12px; }
   .card.paid{ border-left-color:var(--ok); }
   .card.other{ border-left-color:#BBB; }
   .card .row1{ display:flex; gap:8px; align-items:flex-start; }
@@ -95,6 +95,7 @@
   .empty p{ font-weight:700; margin:6px 0 0; }
 
   .foot{ text-align:center; font-size:11px; color:#999; margin-top:24px; }
+  .band{ margin:22px -16px -100px; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); background:linear-gradient(90deg,#1FA2A8,#6FD05C); color:#fff; text-align:center; font-weight:800; font-size:15px; letter-spacing:.04em; }
   .foot a{ color:#555; }
 
   /* 確認ダイアログ */
@@ -112,7 +113,7 @@
   .sheet .two .btn.ghost{ flex:0 0 38%; }
 
   /* トースト・紙吹雪 */
-  .toast{ position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translate(-50%,30px); opacity:0; z-index:60; width:calc(100% - 32px); max-width:480px; background:#222; color:#fff; border-radius:16px; padding:14px 16px; font-size:14px; font-weight:700; text-align:center; transition:.25s; pointer-events:none; }
+  .toast{ position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translate(-50%,30px); opacity:0; z-index:60; width:calc(100% - 32px); max-width:480px; background:#4A3B22; color:#fff; border-radius:16px; padding:14px 16px; font-size:14px; font-weight:700; text-align:center; transition:.25s; pointer-events:none; }
   .toast.on{ transform:translate(-50%,0); opacity:1; }
   .toast.bad{ background:var(--err); }
   .confetti{ position:fixed; inset:0; pointer-events:none; z-index:70; overflow:hidden; }
@@ -126,7 +127,7 @@
 <header class="top">
   <div class="in">
     <img src="happykids_logo_trimmed_600.png" alt="HAPPY KIDS PROJECT">
-    <div><h1>入金管理 🍩</h1><small>HAPPY KIDS PROJECT 鳥取</small></div>
+    <div><h1>入金管理 🍩</h1><small>HAPPY KIDS PROJECT 米子</small></div>
     <div class="sp"></div>
     <button class="icon-btn" id="reload" type="button" aria-label="更新" style="display:none">↻</button>
   </div>
@@ -161,6 +162,7 @@
     </div>
     <div id="list"></div>
     <div class="foot"><a href="#" id="logout">ログアウト</a></div>
+    <div class="band">HAPPY KIDS PROJECT 米子 ・ パートナー管理</div>
   </section>
 </div>
 
