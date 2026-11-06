@@ -202,11 +202,11 @@
 
   // ---- デモ用データ ----
   var demoRows = [
-    {row:3,name:'株式会社サンプル商事',plan:'Gold',course:'39,600円',pay:'振込',amount:39600,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/06',email:'info@example.com',invSent:'送付済 2026/11/06 12:07',rcSent:''},
-    {row:4,name:'サンプル珈琲',plan:'Silver',course:'19,800円',pay:'カード',amount:19800,status:'カード決済待ち',kind:'pending',start:'2026/11/05',email:'cafe@example.com',invSent:'（カードのため請求書なし）',rcSent:''},
-    {row:5,name:'有限会社ためし工務店',plan:'Silver',course:'19,800円',pay:'振込',amount:13200,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/02',email:'koumuten@example.com',invSent:'送付済 2026/11/02 09:30',rcSent:''},
-    {row:6,name:'Toshio Sakamoto',plan:'Gold',course:'39,600円',pay:'カード',amount:39600,status:'契約中',kind:'paid',start:'2026/03/26',email:'',invSent:'',rcSent:''},
-    {row:7,name:'株式会社デモ建設',plan:'Silver',course:'19,800円',pay:'振込',amount:19800,status:'契約中',kind:'paid',start:'2026/10/01',email:'demo@example.com',invSent:'送付済 2026/10/01 10:00',rcSent:'送付済 2026/10/09 15:20（RC-20261009-007）'}
+    {row:3,name:'株式会社サンプル商事',plan:'スペシャルパートナー',course:'39,600円',pay:'振込',amount:39600,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/06',email:'info@example.com',invSent:'送付済 2026/11/06 12:07',rcSent:''},
+    {row:4,name:'サンプル珈琲',plan:'パートナー',course:'19,800円',pay:'カード',amount:19800,status:'カード決済待ち',kind:'pending',start:'2026/11/05',email:'cafe@example.com',invSent:'（カードのため請求書なし）',rcSent:''},
+    {row:5,name:'有限会社ためし工務店',plan:'パートナー',course:'19,800円',pay:'振込',amount:13200,status:'請求書送付済・入金待ち',kind:'pending',start:'2026/11/02',email:'koumuten@example.com',invSent:'送付済 2026/11/02 09:30',rcSent:''},
+    {row:6,name:'Toshio Sakamoto',plan:'スペシャルパートナー',course:'39,600円',pay:'カード',amount:39600,status:'契約中',kind:'paid',start:'2026/03/26',email:'',invSent:'',rcSent:''},
+    {row:7,name:'株式会社デモ建設',plan:'パートナー',course:'19,800円',pay:'振込',amount:19800,status:'契約中',kind:'paid',start:'2026/10/01',email:'demo@example.com',invSent:'送付済 2026/10/01 10:00',rcSent:'送付済 2026/10/09 15:20（RC-20261009-007）'}
   ];
 
   // ---- 通信 ----
@@ -277,7 +277,7 @@
     $('list').innerHTML = show_.map(function(r){
       var cls = r.kind === 'pending' ? '' : (r.kind === 'paid' ? ' paid' : ' other');
       var chipS = '<span class="chip ' + (r.kind === 'paid' ? 'paid' : (r.kind === 'other' ? 'other' : '')) + '">' + esc(r.status || '—') + '</span>';
-      var plan = r.plan ? '<span class="chip ' + (r.plan === 'Gold' ? 'gold' : 'silver') + '">' + esc(r.plan) + '</span>' : '';
+      var plan = r.plan ? '<span class="chip ' + (r.plan === 'スペシャルパートナー' ? 'gold' : 'silver') + '">' + esc(r.plan) + '</span>' : '';
       var pay = r.pay ? '<span class="chip other">' + esc(r.pay) + '</span>' : '';
       var amt = r.amount ? '<div class="amt"><small>¥</small>' + yen(r.amount) + '<span class="tax">税込</span></div>' : '<div class="amt" style="font-size:16px;color:#999">金額なし</div>';
       var meta = '<div class="meta">' +

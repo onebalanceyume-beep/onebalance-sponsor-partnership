@@ -41,7 +41,7 @@
   .plans{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .opt{ border:2px solid var(--line); border-radius:6px; padding:16px 12px; text-align:center; cursor:pointer; background:#fff; position:relative; user-select:none; }
   .opt.sel{ border-color:var(--y); background:var(--ysoft); box-shadow:0 0 0 2px var(--y); }
-  .opt .rank{ font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--gray); }
+  .opt .rank{ font-size:12px; white-space:nowrap; font-weight:700; letter-spacing:0; color:var(--gray); padding:20px 0 0; line-height:1.3; }
   .opt .price{ font-size:30px; font-weight:800; line-height:1.1; margin-top:6px; }
   .opt .price small{ font-size:13px; font-weight:700; }
   .opt .per{ font-size:11px; color:var(--gray); margin-top:2px; }
@@ -107,8 +107,8 @@
       <div class="sec-no">STEP 1</div>
       <h2>プランを選ぶ</h2>
       <div class="plans" id="plans">
-        <div class="opt sel" data-plan="Silver"><span class="chk"></span><div class="rank">SILVER</div><div class="price"><small>¥</small>19,800</div><div class="per">年額</div></div>
-        <div class="opt" data-plan="Gold"><span class="chk"></span><div class="rank">GOLD</div><div class="price"><small>¥</small>39,600</div><div class="per">年額</div></div>
+        <div class="opt sel" data-plan="Silver"><span class="chk"></span><div class="rank">パートナー</div><div class="price"><small>¥</small>19,800</div><div class="per">年額</div></div>
+        <div class="opt" data-plan="Gold"><span class="chk"></span><div class="rank">スペシャルパートナー</div><div class="price"><small>¥</small>39,600</div><div class="per">年額</div></div>
       </div>
     </section>
 
@@ -189,6 +189,7 @@
 
   var GAS_URL = 'https://script.google.com/macros/s/AKfycbxoloA6vosntdBfDgHx2tHyMA7W91dcPcDu1XqcNkiAmgmKi8we7_8u9rRI8QiuFMn-7w/exec';
   var ANNUAL = { Silver: 19800, Gold: 39600 };
+  var PLAN_NAME = { Silver: 'パートナー', Gold: 'スペシャルパートナー' };   // 画面に出す名前（内部キーは変えない）
   var STRIPE = {
     Silver: 'https://buy.stripe.com/8x228sbe91go5vCd5zffy0f',
     Gold: 'https://buy.stripe.com/cNi4gA81X7EM3nuaXrffy0p'
@@ -259,7 +260,7 @@
       }
       var a = ANNUAL[plan], now = new Date(), n = monthsLeft(now), monthly = Math.floor(a / 12), end = endDate(now);
       document.getElementById('doneBox').innerHTML =
-        '・プラン：' + plan + '（' + yen(a) + '／年）<br>・お支払い：口座振込（請求書）<br>・今回のご請求額：<b>' + yen(monthly * n) + '</b>（' + TAX + '・月割り' + n + 'ヶ月）<br>・契約期間：' + fmt(now) + '〜' + fmt(end) +
+        '・プラン：' + PLAN_NAME[plan] + '（' + yen(a) + '／年）<br>・お支払い：口座振込（請求書）<br>・今回のご請求額：<b>' + yen(monthly * n) + '</b>（' + TAX + '・月割り' + n + 'ヶ月）<br>・契約期間：' + fmt(now) + '〜' + fmt(end) +
         '<br><br>請求書は、ご入力のメールアドレス宛てにお送りします。お支払いは請求書の発行日から1ヶ月以内にお願いします。';
       document.getElementById('formArea').style.display = 'none';
       document.getElementById('done').style.display = 'block';

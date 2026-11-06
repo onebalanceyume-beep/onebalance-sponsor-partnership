@@ -36,6 +36,7 @@ const HK_ADMIN = {
 
 // 年額（税込）
 const HK_ANNUAL = { Silver: 19800, Gold: 39600 };
+const HK_PLAN_NAME = { Silver: 'パートナー', Gold: 'スペシャルパートナー' };   // 請求書・メール・アプリに出すプラン名（内部キーは変えない）
 
 // カード決済（Stripe・年額自動更新）の決済リンク
 const HK_STRIPE = {
@@ -216,7 +217,7 @@ function hkPartnerPost_(e) {
 
     const annual = HK_ANNUAL[planKey];
     const now = new Date();
-    const planLabel = planKey + '（' + hkYen_(annual) + '／年）';
+    const planLabel = HK_PLAN_NAME[planKey] + '（' + hkYen_(annual) + '／年）';
     const owner = HK_INVOICE.ISSUER_NAME;
     const lineUrl = HK_CONFIG.HK_LINE_URL;
 
@@ -254,7 +255,7 @@ function hkPartnerPost_(e) {
     // ============ 口座振込（月割り・請求書を自動送信） ============
     const pr = hkCalcMonthly_(annual, now);
     const due = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());   // 1ヶ月以内
-    const plan = planKey + '（' + hkYen_(annual) + '／年）';
+    const plan = HK_PLAN_NAME[planKey] + '（' + hkYen_(annual) + '／年）';
 
     let invoiceNo = 'HK-' + Utilities.formatDate(now, 'Asia/Tokyo', 'yyyyMMdd') + '-' + Utilities.formatDate(now, 'Asia/Tokyo', 'HHmm');
 
@@ -385,7 +386,7 @@ function hkIssueReceiptForRow_(sh, r) {
     const amount = Number(v[HK_COL.AMOUNT - 1]);
     const payLabel = String(v[HK_COL.PAY - 1]).indexOf('Stripe') >= 0 ? 'クレジットカード' : '銀行振込';
     const rankText = String(v[HK_COL.RANK - 1]).trim();
-    const planName = rankText === 'SPECIAL' ? 'Gold' : (rankText === 'PARTNER' ? 'Silver' : rankText);   // シートのランク表記 → プラン名
+    const planName = rankText === 'SPECIAL' ? HK_PLAN_NAME.Gold : (rankText === 'PARTNER' ? HK_PLAN_NAME.Silver : rankText);   // シートのランク表記 → プラン名
     const planLabel = planName + '（年額 ' + String(v[HK_COL.COURSE - 1]).trim() + '）';
     const owner = HK_INVOICE.ISSUER_NAME;
     const now = new Date();
@@ -459,7 +460,7 @@ function hkAdminRow_(sh, r) {
   return {
     row: r,
     name: String(v[HK_COL.NAME - 1]).trim(),
-    plan: rank === 'SPECIAL' ? 'Gold' : (rank === 'PARTNER' ? 'Silver' : rank),
+    plan: rank === 'SPECIAL' ? HK_PLAN_NAME.Gold : (rank === 'PARTNER' ? HK_PLAN_NAME.Silver : rank),
     course: String(v[HK_COL.COURSE - 1]).trim(),
     pay: String(v[HK_COL.PAY - 1]).indexOf('Stripe') >= 0 ? 'カード' : String(v[HK_COL.PAY - 1]).trim(),
     amount: amount > 0 ? amount : null,
